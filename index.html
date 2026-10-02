@@ -854,39 +854,24 @@
         <button onclick="closeOfficeMap()" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200"><i
             class="fa-solid fa-times"></i></button>
       </div>
-      <div class="relative h-56 w-full overflow-hidden bg-brand-50">
-        <svg viewBox="0 0 400 260" class="w-full h-full" preserveAspectRatio="xMidYMid slice">
-          <rect width="400" height="260" fill="#e5ffe0" />
-          <g stroke="#bbf7d0" stroke-width="10" fill="none">
-            <path d="M-20 60 H420" />
-            <path d="M-20 150 H420" />
-            <path d="M-20 220 H420" />
-            <path d="M80 -20 V280" />
-            <path d="M230 -20 V280" />
-            <path d="M330 -20 V280" />
-          </g>
-          <circle cx="200" cy="130" r="46" fill="#22c55e" opacity=".18" />
-          <circle cx="200" cy="130" r="26" fill="#22c55e" opacity=".28" />
-        </svg>
-        <div class="absolute inset-0 flex flex-col items-center justify-center">
-          <i class="fa-solid fa-location-dot text-brand-800 text-4xl drop-shadow"></i>
-          <span class="mt-1 bg-white text-[10px] font-bold text-brand-800 px-2 py-1 rounded-full shadow">Kantor Host
-            Live</span>
-        </div>
+      <div class="relative isolate h-56 w-full overflow-hidden bg-brand-50">
+        <iframe id="office-map" title="Peta lokasi kantor" class="h-full w-full border-0" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <div class="p-5 space-y-4">
         <div class="flex items-start gap-3">
           <div class="w-9 h-9 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center shrink-0"><i
               class="fa-solid fa-building"></i></div>
           <div>
-            <p class="text-sm font-semibold text-gray-800">Kantor Host Live</p>
-            <p class="text-xs text-gray-500 mt-0.5">Titik absen kamu tervalidasi di sini. Radius absen otomatis: 2 meter
+            <p class="text-sm font-semibold text-gray-800" id="office-name">Kantor Host Live</p>
+            <p class="text-xs text-gray-500 mt-0.5" id="office-address"></p>
+            <p class="text-xs text-gray-500 mt-1">Titik absen kamu tervalidasi di sini. Radius absen otomatis: 2 meter
               dari titik ini.</p>
           </div>
         </div>
-        <button onclick="showCustomAlert('Buka Maps', 'Fitur buka lokasi di aplikasi peta akan segera hadir.')"
+        <a id="office-map-link" href="#" target="_blank" rel="noopener noreferrer"
           class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 rounded-xl shadow-md active:scale-95 flex justify-center items-center gap-2"><i
-            class="fa-solid fa-diamond-turn-right"></i> Buka di Aplikasi Peta</button>
+            class="fa-solid fa-diamond-turn-right"></i> Buka di Aplikasi Peta</a>
       </div>
     </div>
   </div>
@@ -1055,8 +1040,24 @@
       if (badge) badge.remove();
     }
 
-    /* Peta Kantor */
-    function openOfficeMap() { $('modal-map').classList.remove('hidden'); }
+    /* Peta Kantor (placeholder: Universitas Sebelas Maret, ganti saat lokasi kantor asli sudah ada) */
+    const OFFICE = {
+      name: 'Kantor Host Live',
+      address: 'Universitas Sebelas Maret, Jl. Ir. Sutami No.36, Kentingan, Jebres, Surakarta',
+      lat: -7.5594794,
+      lng: 110.8568535
+    };
+
+    function openOfficeMap() {
+      const coords = `${OFFICE.lat},${OFFICE.lng}`;
+      $('office-name').textContent = OFFICE.name;
+      $('office-address').textContent = OFFICE.address;
+      $('office-map-link').href = `https://www.google.com/maps/search/?api=1&query=${coords}`;
+      const frame = $('office-map');
+      const src = `https://www.google.com/maps?q=${coords}&z=17&output=embed`;
+      if (frame.getAttribute('src') !== src) frame.src = src;
+      $('modal-map').classList.remove('hidden');
+    }
     function closeOfficeMap() { $('modal-map').classList.add('hidden'); }
 
     /* Jadwal Live */
