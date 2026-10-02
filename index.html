@@ -197,6 +197,18 @@
       color: #86efac !important
     }
 
+    .att-loc {
+      color: #86efac
+    }
+
+    .att-loc.out {
+      color: #fcd34d
+    }
+
+    .att-loc:hover {
+      text-decoration: underline
+    }
+
     .att-card #btn-absen.bg-brand-600 {
       background: #fff !important;
       background-image: none !important;
@@ -594,18 +606,22 @@
               <div class="flex-1 bg-gray-50 rounded-2xl p-3 text-center border border-gray-100">
                 <p class="text-xs text-gray-500 mb-1">Jam Masuk</p>
                 <p class="text-lg font-bold" id="time-in">--:--</p>
+                <a id="loc-in" href="#" target="_blank" rel="noopener noreferrer"
+                  class="att-loc invisible inline-flex items-center gap-1 mt-1 text-[10px] font-semibold">&nbsp;</a>
               </div>
               <div class="flex-1 bg-gray-50 rounded-2xl p-3 text-center border border-gray-100">
                 <p class="text-xs text-gray-500 mb-1">Jam Keluar</p>
                 <p class="text-lg font-bold" id="time-out">--:--</p>
+                <a id="loc-out" href="#" target="_blank" rel="noopener noreferrer"
+                  class="att-loc invisible inline-flex items-center gap-1 mt-1 text-[10px] font-semibold">&nbsp;</a>
               </div>
             </div>
             <button id="btn-absen" onclick="toggleAttendance()"
               class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 rounded-xl shadow-md active:scale-95 flex items-center justify-center gap-2">
               <i class="fa-solid fa-fingerprint text-lg"></i><span id="txt-absen">Absen Masuk Sekarang</span>
             </button>
-            <p class="text-center text-[10px] text-green-600 mt-3"><i class="fa-solid fa-circle-check"></i> Dalam area
-              kantor (2m)</p>
+            <p class="text-center text-[10px] text-green-600 mt-3"><i class="fa-solid fa-camera"></i> Absen memakai foto
+              selfie &amp; lokasi kamu saat ini</p>
           </div>
           <div class="mb-4 flex justify-between items-end">
             <h3 class="font-bold">Jadwal Live Saya</h3>
@@ -865,13 +881,71 @@
           <div>
             <p class="text-sm font-semibold text-gray-800" id="office-name">Kantor Host Live</p>
             <p class="text-xs text-gray-500 mt-0.5" id="office-address"></p>
-            <p class="text-xs text-gray-500 mt-1">Titik absen kamu tervalidasi di sini. Radius absen otomatis: 2 meter
-              dari titik ini.</p>
+            <p class="text-xs text-gray-500 mt-1">Titik absen kamu tervalidasi di sini. Radius absen otomatis: <span
+                id="office-radius"></span> meter dari titik ini.</p>
           </div>
         </div>
         <a id="office-map-link" href="#" target="_blank" rel="noopener noreferrer"
           class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 rounded-xl shadow-md active:scale-95 flex justify-center items-center gap-2"><i
             class="fa-solid fa-diamond-turn-right"></i> Buka di Aplikasi Peta</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ABSENSI (foto selfie + lokasi) -->
+  <div id="modal-absen"
+    class="hidden fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div
+      class="bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl w-full max-w-md modal-enter flex flex-col max-h-[92vh] overflow-hidden">
+      <div class="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
+        <div>
+          <h3 class="font-bold" id="absen-title">Absen Masuk</h3>
+        </div>
+        <button onclick="closeAbsen()" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200"><i
+            class="fa-solid fa-times"></i></button>
+      </div>
+      <div class="p-5 space-y-3 overflow-y-auto no-scrollbar">
+        <div class="relative w-full aspect-[4/5] max-h-[46vh] rounded-2xl overflow-hidden bg-gray-900">
+          <video id="absen-video" class="absolute inset-0 w-full h-full object-cover -scale-x-100" autoplay muted
+            playsinline></video>
+          <canvas id="absen-canvas" class="hidden absolute inset-0 w-full h-full object-cover -scale-x-100"></canvas>
+          <div id="absen-guide" class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="w-40 h-52 rounded-[50%] border-2 border-dashed border-white/70"></div>
+          </div>
+          <span id="absen-hint"
+            class="absolute top-3 left-1/2 -translate-x-1/2 whitespace-nowrap bg-black/45 backdrop-blur text-white text-[11px] font-medium px-3 py-1 rounded-full"></span>
+          <div id="absen-flash"
+            class="absolute inset-0 bg-white opacity-0 pointer-events-none transition-opacity duration-300"></div>
+          <div id="absen-cam-msg"
+            class="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center text-white bg-gray-900">
+            <i id="absen-cam-icon" class="fa-solid fa-spinner fa-spin text-2xl"></i>
+            <p id="absen-cam-text" class="text-sm"></p>
+            <button id="absen-cam-retry" onclick="startCamera()"
+              class="hidden px-4 py-2 rounded-full bg-white/15 hover:bg-white/25 text-xs font-semibold">Coba
+              lagi</button>
+          </div>
+        </div>
+        <div id="absen-loc" class="flex items-center gap-3 rounded-2xl border px-3 py-2.5 transition-colors">
+          <div id="absen-loc-icon" class="w-9 h-9 rounded-full flex items-center justify-center shrink-0"><i
+              id="absen-loc-i"></i></div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-800" id="absen-loc-title"></p>
+            <p class="text-xs text-gray-500" id="absen-loc-sub"></p>
+          </div>
+          <button id="absen-loc-retry" onclick="startLocation()"
+            class="hidden shrink-0 text-xs font-semibold text-brand-600">Coba lagi</button>
+        </div>
+        <div class="flex gap-3 pt-1">
+          <button id="btn-shutter" onclick="takePhoto()"
+            class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 rounded-xl shadow-md active:scale-95 flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"><i
+              class="fa-solid fa-camera"></i> Ambil Foto</button>
+          <button id="btn-retake" onclick="retakePhoto()"
+            class="hidden flex px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3.5 rounded-xl active:scale-95 items-center gap-2"><i
+              class="fa-solid fa-rotate-left"></i> Ulangi</button>
+          <button id="btn-confirm" onclick="confirmAbsen()"
+            class="hidden flex flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 rounded-xl shadow-md active:scale-95 justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"><i
+              class="fa-solid fa-check"></i> <span id="btn-confirm-txt"></span></button>
+        </div>
       </div>
     </div>
   </div>
@@ -965,9 +1039,12 @@
       $('view-main').classList.remove('flex');
       $('view-login').classList.remove('hidden');
       setTimeout(() => { $('view-login').style.opacity = '1'; }, 50);
+      closeAbsen();
       inTime = outTime = null;
+      attLoc.in = attLoc.out = null;
       $('time-in').innerText = $('time-out').innerText = '--:--';
       switchTab('home');
+      renderAttLoc();
       updateAttendanceUI();
     }
 
@@ -1003,19 +1080,192 @@
       });
     }
 
-    /* Absensi */
+    /* Absensi: foto selfie + lokasi. Foto hanya tampil sementara di layar, tidak pernah disimpan atau dikirim. */
+    const ATT = { enforceRadius: false }; /* true = absen diblokir kalau di luar radius kantor */
+    const attLoc = { in: null, out: null };
+    const NEED_HTTPS = 'Kamera dan lokasi hanya bisa dipakai lewat HTTPS atau localhost.';
+    const CAM_ERR = {
+      NotAllowedError: 'Izin kamera ditolak. Ketuk ikon gembok di address bar, izinkan Kamera, lalu coba lagi.',
+      NotFoundError: 'Kamera tidak ditemukan di perangkat ini.',
+      NotReadableError: 'Kamera sedang dipakai aplikasi lain.'
+    };
+    const GEO_ERR = {
+      1: 'Izin lokasi ditolak. Ketuk ikon gembok di address bar, izinkan Lokasi, lalu coba lagi.',
+      2: 'Lokasi tidak terdeteksi. Pastikan GPS atau Wi-Fi aktif.',
+      3: 'Pencarian lokasi terlalu lama. Coba lagi.'
+    };
+    const LOC_UI = {
+      loading: ['bg-gray-50 border-gray-200', 'bg-gray-200 text-gray-500', 'fa-solid fa-spinner fa-spin'],
+      ok: ['bg-brand-50 border-brand-200', 'bg-brand-100 text-brand-600', 'fa-solid fa-location-dot'],
+      out: ['bg-amber-50 border-amber-200', 'bg-amber-100 text-amber-600', 'fa-solid fa-triangle-exclamation'],
+      error: ['bg-red-50 border-red-200', 'bg-red-100 text-red-500', 'fa-solid fa-location-crosshairs']
+    };
+    let absenMode = 'in', camStream = null, camSeq = 0, camState = 'loading';
+    let geoWatch = null, geoFix = null, geoErr = null, photoTaken = false;
+
+    const fmtDist = m => m < 1000 ? Math.round(m) + ' m' : (m / 1000).toLocaleString('id-ID', { maximumFractionDigits: 1 }) + ' km';
+    function distanceM(a, b) {
+      const rad = d => d * Math.PI / 180, dLat = rad(b.lat - a.lat), dLng = rad(b.lng - a.lng);
+      const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
+      return 12742000 * Math.asin(Math.sqrt(h));
+    }
+
     function toggleAttendance() {
-      const t = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-      if (!inTime) {
-        inTime = t; $('time-in').innerText = t;
-        showCustomAlert('Absen Berhasil', `Kamu absen masuk pukul ${t} WIB. Selamat bekerja!`);
-      } else if (!outTime) {
-        outTime = t; $('time-out').innerText = t;
-        showCustomAlert('Check-out Berhasil', `Kamu absen keluar pukul ${t} WIB. Hati-hati di jalan!`);
-      } else {
-        showCustomAlert('Info', 'Kamu sudah menyelesaikan absen hari ini.');
+      if (outTime) showCustomAlert('Info', 'Kamu sudah menyelesaikan absen hari ini.');
+      else openAbsen(inTime ? 'out' : 'in');
+    }
+    function openAbsen(mode) {
+      absenMode = mode;
+      $('absen-title').innerText = mode === 'in' ? 'Absen Masuk' : 'Absen Keluar';
+      $('modal-absen').classList.remove('hidden');
+      startLocation();
+      startCamera();
+    }
+    function closeAbsen() {
+      camSeq++;
+      stopCamera(); stopLocation(); discardPhoto();
+      $('modal-absen').classList.add('hidden');
+    }
+    window.addEventListener('pagehide', () => { stopCamera(); stopLocation(); });
+
+    /* Kamera */
+    async function startCamera() {
+      const seq = ++camSeq;
+      stopCamera(); discardPhoto();
+      setCam('loading');
+      if (!navigator.mediaDevices?.getUserMedia) return setCam('error', NEED_HTTPS);
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 } }, audio: false });
+        if (seq !== camSeq) return stream.getTracks().forEach(t => t.stop());
+        camStream = stream;
+        $('absen-video').srcObject = stream;
+        await $('absen-video').play();
+        if (seq === camSeq) setCam('live');
+      } catch (e) {
+        if (seq !== camSeq) return;
+        stopCamera();
+        setCam('error', CAM_ERR[e.name] || 'Kamera tidak bisa dibuka. Coba lagi.');
       }
+    }
+    function stopCamera() {
+      if (camStream) camStream.getTracks().forEach(t => t.stop());
+      camStream = null;
+      $('absen-video').srcObject = null;
+    }
+    function setCam(state, text = '') {
+      camState = state;
+      $('absen-cam-msg').classList.toggle('hidden', state === 'live');
+      $('absen-cam-icon').className = (state === 'error' ? 'fa-solid fa-video-slash' : 'fa-solid fa-spinner fa-spin') + ' text-2xl';
+      $('absen-cam-text').innerText = state === 'error' ? text : 'Menyalakan kamera…';
+      $('absen-cam-retry').classList.toggle('hidden', state !== 'error');
+      syncAbsen();
+    }
+    function takePhoto() {
+      const v = $('absen-video'), c = $('absen-canvas'), flash = $('absen-flash');
+      if (camState !== 'live' || !v.videoWidth) return;
+      c.width = v.videoWidth; c.height = v.videoHeight;
+      c.getContext('2d').drawImage(v, 0, 0);
+      c.classList.remove('hidden');
+      v.pause();
+      photoTaken = true;
+      flash.style.opacity = '.9';
+      setTimeout(() => { flash.style.opacity = '0'; }, 90);
+      syncAbsen();
+    }
+    function retakePhoto() {
+      discardPhoto();
+      $('absen-video').play().catch(() => { });
+      syncAbsen();
+    }
+    function discardPhoto() {
+      const c = $('absen-canvas');
+      c.getContext('2d').clearRect(0, 0, c.width, c.height);
+      c.width = c.height = 0;
+      c.classList.add('hidden');
+      photoTaken = false;
+    }
+
+    /* Lokasi */
+    function startLocation() {
+      stopLocation();
+      geoFix = geoErr = null;
+      if (!window.isSecureContext) geoErr = NEED_HTTPS;
+      else if (!navigator.geolocation) geoErr = 'Browser ini tidak mendukung lokasi.';
+      else geoWatch = navigator.geolocation.watchPosition(
+        p => { geoFix = { lat: p.coords.latitude, lng: p.coords.longitude, acc: p.coords.accuracy }; geoErr = null; renderLoc(); },
+        e => { if (e.code === 1) geoFix = null; if (!geoFix) { geoErr = GEO_ERR[e.code] || GEO_ERR[2]; renderLoc(); } },
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+      );
+      renderLoc();
+    }
+    function stopLocation() {
+      if (geoWatch !== null) navigator.geolocation.clearWatch(geoWatch);
+      geoWatch = null;
+    }
+    function locInfo() {
+      if (geoErr) return { s: 'error' };
+      if (!geoFix) return { s: 'loading' };
+      const dist = distanceM(geoFix, OFFICE);
+      return { s: dist <= OFFICE.radius ? 'ok' : 'out', dist };
+    }
+    function renderLoc() {
+      const loc = locInfo(), [box, ico, icon] = LOC_UI[loc.s];
+      const title = { loading: 'Mencari lokasi…', ok: 'Dalam area kantor', out: 'Di luar area kantor', error: 'Lokasi tidak tersedia' }[loc.s];
+      let sub = geoErr || 'Pastikan izin lokasi atau GPS aktif.';
+      if (loc.s === 'ok' || loc.s === 'out') sub = `${fmtDist(loc.dist)} dari ${OFFICE.name} · akurasi ±${Math.round(geoFix.acc)} m`;
+      if (loc.s === 'out' && ATT.enforceRadius) sub = `Absen hanya bisa dalam radius ${OFFICE.radius} m dari kantor. Kamu ${fmtDist(loc.dist)} dari kantor.`;
+      $('absen-loc').className = 'flex items-center gap-3 rounded-2xl border px-3 py-2.5 transition-colors ' + box;
+      $('absen-loc-icon').className = 'w-9 h-9 rounded-full flex items-center justify-center shrink-0 ' + ico;
+      $('absen-loc-i').className = icon;
+      $('absen-loc-title').innerText = title;
+      $('absen-loc-sub').innerText = sub;
+      $('absen-loc-retry').classList.toggle('hidden', loc.s !== 'error');
+      syncAbsen();
+    }
+
+    /* Tombol & petunjuk di sheet absen mengikuti status kamera, foto, dan lokasi */
+    function syncAbsen() {
+      const live = camState === 'live', loc = locInfo();
+      const blocked = loc.s === 'loading' || loc.s === 'error' || (ATT.enforceRadius && loc.s === 'out');
+      $('absen-guide').classList.toggle('hidden', !live || photoTaken);
+      $('absen-hint').classList.toggle('hidden', !live);
+      $('absen-hint').innerText = photoTaken ? 'Pastikan wajah terlihat jelas' : 'Posisikan wajah di dalam bingkai';
+      $('btn-shutter').classList.toggle('hidden', photoTaken);
+      $('btn-shutter').disabled = !live;
+      $('btn-retake').classList.toggle('hidden', !photoTaken);
+      $('btn-confirm').classList.toggle('hidden', !photoTaken);
+      $('btn-confirm').disabled = blocked;
+      $('btn-confirm-txt').innerText = loc.s === 'loading' ? 'Menunggu lokasi…' : loc.s === 'error' ? 'Lokasi belum aktif'
+        : blocked ? 'Di luar area' : 'Konfirmasi Absen';
+    }
+
+    function confirmAbsen() {
+      const loc = locInfo();
+      if (!photoTaken || $('btn-confirm').disabled) return;
+      const t = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+      const rec = { lat: geoFix.lat, lng: geoFix.lng, acc: geoFix.acc, dist: loc.dist, inside: loc.s === 'ok' };
+      const where = rec.inside ? `dalam area kantor (${fmtDist(rec.dist)})` : `luar area kantor (${fmtDist(rec.dist)} dari kantor)`;
+      closeAbsen(); /* matikan kamera, buang foto, hentikan GPS */
+      if (absenMode === 'in') {
+        inTime = t; attLoc.in = rec; $('time-in').innerText = t;
+        showCustomAlert('Absen Berhasil', `Kamu absen masuk pukul ${t} WIB dari ${where}. Foto tidak disimpan. Selamat bekerja!`);
+      } else {
+        outTime = t; attLoc.out = rec; $('time-out').innerText = t;
+        showCustomAlert('Check-out Berhasil', `Kamu absen keluar pukul ${t} WIB dari ${where}. Foto tidak disimpan. Hati-hati di jalan!`);
+      }
+      renderAttLoc();
       updateAttendanceUI();
+    }
+    function renderAttLoc() {
+      [['in', 'loc-in'], ['out', 'loc-out']].forEach(([k, id]) => {
+        const el = $(id), r = attLoc[k];
+        el.classList.toggle('invisible', !r);
+        el.classList.toggle('out', !!r && !r.inside);
+        if (!r) { el.innerHTML = '&nbsp;'; return; }
+        el.href = `https://www.google.com/maps/search/?api=1&query=${r.lat},${r.lng}`;
+        el.title = 'Lihat lokasi absen di peta';
+        el.innerHTML = `<i class="fa-solid ${r.inside ? 'fa-location-dot' : 'fa-triangle-exclamation'}"></i> ${r.inside ? 'Dalam area' : 'Luar area'} · ${fmtDist(r.dist)}`;
+      });
     }
     function updateAttendanceUI() {
       const base = 'w-full font-semibold py-3.5 rounded-xl flex items-center justify-center gap-2 ';
@@ -1045,13 +1295,15 @@
       name: 'Kantor Host Live',
       address: 'Universitas Sebelas Maret, Jl. Ir. Sutami No.36, Kentingan, Jebres, Surakarta',
       lat: -7.5594794,
-      lng: 110.8568535
+      lng: 110.8568535,
+      radius: 50 /* meter; GPS ponsel biasanya hanya akurat 5-30 m, jadi 2 m tidak realistis */
     };
 
     function openOfficeMap() {
       const coords = `${OFFICE.lat},${OFFICE.lng}`;
       $('office-name').textContent = OFFICE.name;
       $('office-address').textContent = OFFICE.address;
+      $('office-radius').textContent = OFFICE.radius;
       $('office-map-link').href = `https://www.google.com/maps/search/?api=1&query=${coords}`;
       const frame = $('office-map');
       const src = `https://www.google.com/maps?q=${coords}&z=17&output=embed`;
