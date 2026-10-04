@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LIVEMANAGE - Internal Management</title>
+  <script>if (/[?&]frame\b/.test(location.search)) document.documentElement.classList.add('frame');</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
@@ -234,6 +235,26 @@
 
     #kpi-grid>div:first-child p:last-child {
       color: #86efac !important
+    }
+
+    @media (min-width:1024px) {
+      #kpi-grid>div:first-child {
+        grid-column: span 1
+      }
+    }
+
+    /* Mode frame (?frame): halaman dikunci tepat 1440x1024 px untuk screenshot / html.to.design Figma */
+    html.frame {
+      width: 1440px;
+      height: 1024px;
+      overflow: auto;
+      background: #d1d5db
+    }
+
+    html.frame body {
+      width: 1440px;
+      height: 1024px;
+      transform: translateZ(0) /* modal fixed ikut terkurung di dalam frame */
     }
 
     #leaderboard>div:first-child {
@@ -515,7 +536,7 @@
 
   <!-- MAIN APP -->
   <div id="view-main"
-    class="hidden w-full max-w-md h-full bg-white relative flex-col shadow-2xl overflow-hidden md:max-w-4xl md:flex-row">
+    class="hidden w-full max-w-md h-full bg-white relative flex-col shadow-2xl overflow-hidden md:max-w-4xl md:flex-row lg:max-w-none">
 
     <aside class="hidden md:flex flex-col w-64 bg-brand-900 text-white h-full shrink-0">
       <div class="p-6 flex flex-col items-center gap-2 border-b border-brand-800">
@@ -589,9 +610,11 @@
       <main class="flex-1 overflow-y-auto no-scrollbar bg-gray-50 pb-20 md:pb-6" id="main-scroll-area">
 
         <!-- BERANDA -->
-        <div id="tab-home" class="view-section p-5 fade-in">
+        <div id="tab-home" class="view-section p-5 lg:p-8 fade-in">
           <h1 class="text-2xl font-bold">Halo, Amel! 👋</h1>
           <p class="text-sm text-gray-500 mt-1 mb-6">Selamat bekerja, semoga harimu menyenangkan.</p>
+          <div>
+          <div>
           <div class="att-card bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-6">
             <div class="flex justify-between items-start mb-4">
               <div>
@@ -623,6 +646,8 @@
             <p class="text-center text-[10px] text-green-600 mt-3"><i class="fa-solid fa-camera"></i> Absen memakai foto
               selfie &amp; lokasi kamu saat ini</p>
           </div>
+          </div>
+          <div>
           <div class="mb-4 flex justify-between items-end">
             <h3 class="font-bold">Jadwal Live Saya</h3>
             <button onclick="openSchedule()" class="text-xs text-brand-600 font-medium">Lihat Jadwal Lengkap</button>
@@ -630,40 +655,45 @@
           <div id="schedule-next"></div>
           <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden divide-y divide-gray-100"
             id="schedule-list"></div>
+          </div>
+          </div>
         </div>
 
         <!-- PERFORMA -->
-        <div id="tab-performance" class="view-section hidden p-5 fade-in">
+        <div id="tab-performance" class="view-section hidden p-5 lg:p-8 fade-in">
           <div class="flex gap-2 mb-5">
             <select class="bg-white border border-gray-200 text-sm rounded-lg px-3 py-2 font-medium shadow-sm">
               <option>Mei 2026</option>
               <option>April 2026</option>
             </select>
-            <select class="bg-white border border-gray-200 text-sm rounded-lg px-3 py-2 font-medium shadow-sm flex-1">
+            <select
+              class="bg-white border border-gray-200 text-sm rounded-lg px-3 py-2 font-medium shadow-sm flex-1 lg:flex-none lg:w-56">
               <option>Semua Platform</option>
               <option>TikTok</option>
               <option>Shopee</option>
             </select>
           </div>
-          <div class="grid grid-cols-2 gap-3 mb-5" id="kpi-grid"></div>
-          <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-5">
-            <h3 class="font-bold text-sm mb-4">Tren Revenue Harian</h3>
-            <div class="w-full h-48"><canvas id="revenueChart"></canvas></div>
-          </div>
-          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div class="px-4 py-3 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h3 class="font-bold text-sm">Top Host Revenue</h3>
-              <button onclick="showCustomAlert('File Excel sedang diunduh...')"
-                class="text-[10px] bg-brand-50 text-brand-700 px-2 py-1 rounded font-semibold border border-brand-200"><i
-                  class="fa-solid fa-download mr-1"></i> Export</button>
+          <div class="grid grid-cols-2 gap-3 mb-5 lg:grid-cols-4 lg:gap-4 lg:mb-6" id="kpi-grid"></div>
+          <div class="lg:grid lg:grid-cols-5 lg:gap-6 lg:items-start">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-5 lg:mb-0 lg:col-span-3">
+              <h3 class="font-bold text-sm mb-4">Tren Revenue Harian</h3>
+              <div class="w-full h-48 lg:h-72"><canvas id="revenueChart"></canvas></div>
             </div>
-            <div class="divide-y divide-gray-100" id="leaderboard"></div>
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden lg:col-span-2">
+              <div class="px-4 py-3 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+                <h3 class="font-bold text-sm">Top Host Revenue</h3>
+                <button onclick="showCustomAlert('File Excel sedang diunduh...')"
+                  class="text-[10px] bg-brand-50 text-brand-700 px-2 py-1 rounded font-semibold border border-brand-200"><i
+                    class="fa-solid fa-download mr-1"></i> Export</button>
+              </div>
+              <div class="divide-y divide-gray-100" id="leaderboard"></div>
+            </div>
           </div>
         </div>
 
         <!-- ADMINISTRASI -->
-        <div id="tab-admin" class="view-section hidden p-5 fade-in">
-          <div class="flex bg-gray-200 p-1 rounded-xl mb-5">
+        <div id="tab-admin" class="view-section hidden p-5 lg:p-8 fade-in">
+          <div class="flex bg-gray-200 p-1 rounded-xl mb-5 lg:max-w-md">
             <button onclick="switchAdminTab('cuti')" id="btn-tab-cuti"
               class="flex-1 py-2 text-sm font-semibold rounded-lg bg-white shadow-sm text-gray-800">Cuti &amp;
               Izin</button>
@@ -671,6 +701,8 @@
               class="flex-1 py-2 text-sm font-semibold rounded-lg text-gray-500">Slip Gaji</button>
           </div>
           <div id="sub-cuti">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
+            <div>
             <div
               class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center mb-5">
               <div>
@@ -685,6 +717,8 @@
             <button onclick="openCutiModal()"
               class="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 rounded-xl shadow-md active:scale-95 mb-5 flex justify-center items-center gap-2"><i
                 class="fa-solid fa-plus"></i> Ajukan Cuti/Izin</button>
+            </div>
+            <div>
             <h4 class="font-bold text-sm mb-3">Riwayat Pengajuan</h4>
             <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm opacity-60">
               <div class="flex justify-between mb-2"><span
@@ -693,8 +727,10 @@
               <p class="text-sm font-semibold">14 Apr 2026</p>
               <p class="text-xs text-gray-500 mt-1">Demam berdarah (Surat dokter terlampir)</p>
             </div>
+            </div>
+            </div>
           </div>
-          <div id="sub-gaji" class="hidden">
+          <div id="sub-gaji" class="hidden lg:max-w-xl">
             <div class="flex justify-between items-center mb-4">
               <h3 class="font-bold">Periode</h3>
               <select class="bg-white border border-gray-200 text-sm rounded-lg px-3 py-1.5 font-medium">
@@ -727,15 +763,17 @@
         </div>
 
         <!-- PROFIL -->
-        <div id="tab-profile" class="view-section hidden p-5 fade-in">
-          <div class="flex flex-col items-center mb-6">
+        <div id="tab-profile" class="view-section hidden p-5 lg:p-8 fade-in">
+          <div class="lg:grid lg:grid-cols-3 lg:gap-8 lg:items-start">
+          <div
+            class="flex flex-col items-center mb-6 lg:mb-0 lg:py-10 lg:bg-white/80 lg:backdrop-blur-sm lg:rounded-2xl lg:border lg:border-gray-100 lg:shadow-sm">
             <div
               class="w-24 h-24 rounded-full bg-brand-100 border-4 border-white shadow-md mb-3 flex items-center justify-center text-brand-700 text-3xl font-bold">
               AM</div>
             <h2 class="text-lg font-bold">Puspita Putri Chamelia</h2>
             <p class="text-sm text-gray-500">@amel • Host Live</p>
           </div>
-          <div class="space-y-4">
+          <div class="space-y-4 lg:col-span-2">
             <details class="group bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden" open>
               <summary class="flex justify-between items-center font-bold cursor-pointer p-4"><span><i
                     class="fa-regular fa-id-badge text-brand-600 mr-2"></i>Informasi Akun</span><i
@@ -791,6 +829,7 @@
                   Password</button>
               </div>
             </details>
+          </div>
           </div>
         </div>
       </main>
