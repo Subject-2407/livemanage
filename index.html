@@ -220,27 +220,29 @@
     /* Performa */
     #kpi-grid>div:first-child {
       grid-column: span 2;
-      background: linear-gradient(145deg, #15803d, #004d00);
-      border-color: transparent
+      background: linear-gradient(145deg, #15803d, #004d00) !important;
+      border-color: transparent !important;
+      color: #fff !important;
     }
 
+    #kpi-grid>div:first-child .kpi-label,
     #kpi-grid>div:first-child p:first-child {
-      color: #bbf7d0 !important
+      color: #bbf7d0 !important;
     }
 
     #kpi-grid>div:first-child h3 {
       color: #fff !important;
-      font-size: 1.875rem;
-      font-weight: 800
+      font-size: 1.75rem;
+      font-weight: 800;
     }
 
-    #kpi-grid>div:first-child p:last-child {
-      color: #86efac !important
+    #kpi-grid>div:first-child .kpi-trend {
+      color: #86efac !important;
     }
 
     @media (min-width:1024px) {
       #kpi-grid>div:first-child {
-        grid-column: span 1
+        grid-column: span 1;
       }
     }
 
@@ -484,7 +486,7 @@
       <div class="w-full space-y-4">
         <div>
           <label class="block text-xs font-semibold text-gray-600 mb-1 ml-1">Username</label>
-          <input type="text" id="login-user" value="amel"
+          <input type="text" id="login-user" value="prita"
             class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 bg-white/80">
         </div>
         <div>
@@ -514,10 +516,13 @@
         <h2><img src="logo-text-reversed.png" alt="LiveSales" class="h-12 w-auto max-w-full"></h2>
       </div>
       <nav class="flex-1 px-4 space-y-2 mt-4" id="side-nav"></nav>
-      <div class="p-4">
+      <!-- Bottom Sidebar: Tombol Keluar Biasa dengan Teks -->
+      <div class="p-4 border-t border-brand-800">
         <button onclick="handleLogout()"
-          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-red-300 hover:bg-red-900/50"><i
-            class="fa-solid fa-arrow-right-from-bracket w-5 text-center"></i> Keluar</button>
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-red-300 hover:text-white hover:bg-red-900/50 active:scale-95 transition-all font-medium text-sm">
+          <i class="fa-solid fa-arrow-right-from-bracket w-5 text-center text-base"></i>
+          <span>Keluar</span>
+        </button>
       </div>
     </aside>
 
@@ -529,16 +534,23 @@
           <h2 class="font-bold text-gray-800" id="header-title">Beranda</h2>
         </div>
         <h2 class="hidden md:block text-xl font-bold text-gray-800" id="header-title-desktop">Beranda</h2>
-        <div class="flex items-center gap-4">
-          <button class="relative text-gray-500 hover:text-brand-600" onclick="toggleNotifications()">
+        <div class="flex items-center gap-3 sm:gap-4">
+          <button class="relative text-gray-500 hover:text-brand-600 p-1.5 transition-colors" onclick="toggleNotifications()" title="Notifikasi">
             <i class="fa-solid fa-bell text-xl"></i>
             <span id="notif-badge"
-              class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">3</span>
+              class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">3</span>
           </button>
-          <button onclick="switchTab('profile')"
-            class="w-9 h-9 rounded-full overflow-hidden border-2 border-white shadow-sm">
-            <img src="https://placehold.co/100x100/22c55e/ffffff?text=A" alt="Profil"
-              class="w-full h-full object-cover">
+          <!-- Tombol Profil & Detail di Kanan Atas -->
+          <button onclick="switchTab('profile')" id="header-profile-btn" title="Lihat Profil Saya"
+            class="flex items-center gap-2.5 py-1 px-2.5 sm:py-1.5 sm:px-3 bg-gray-50 hover:bg-brand-50 border border-gray-200 hover:border-brand-300 rounded-full transition-all group cursor-pointer shadow-2xs">
+            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-brand-700 text-white font-bold text-xs flex items-center justify-center shrink-0 border border-brand-800 shadow-2xs">
+              PY
+            </div>
+            <div class="text-left hidden xs:block leading-tight">
+              <p class="text-xs font-bold text-gray-800 group-hover:text-brand-700 transition-colors">Prita</p>
+              <p class="text-[10px] text-gray-400 font-medium">Host Live</p>
+            </div>
+            <i class="fa-solid fa-chevron-right text-[10px] text-gray-300 group-hover:text-brand-600 transition-colors ml-0.5 hidden sm:inline-block"></i>
           </button>
         </div>
       </header>
@@ -579,7 +591,7 @@
 
         <!-- BERANDA -->
         <div id="tab-home" class="view-section p-5 lg:p-8 fade-in">
-          <h1 class="text-2xl font-bold">Halo, Amel! 👋</h1>
+          <h1 class="text-2xl font-bold">Halo, Prita! 👋</h1>
           <p class="text-sm text-gray-500 mt-1 mb-6">Selamat bekerja, semoga harimu menyenangkan.</p>
           <div>
           <div>
@@ -629,32 +641,146 @@
 
         <!-- PERFORMA -->
         <div id="tab-performance" class="view-section hidden p-5 lg:p-8 fade-in">
-          <div class="flex gap-2 mb-5">
-            <select class="bg-white border border-gray-200 text-sm rounded-lg px-3 py-2 font-medium shadow-sm">
-              <option>Mei 2026</option>
-              <option>April 2026</option>
-            </select>
-            <select
-              class="bg-white border border-gray-200 text-sm rounded-lg px-3 py-2 font-medium shadow-sm flex-1 lg:flex-none lg:w-56">
-              <option>Semua Platform</option>
-              <option>TikTok</option>
-              <option>Shopee</option>
-            </select>
+          <!-- Filter Bar Performa (Waktu & Platform) -->
+          <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-5">
+            <div class="flex flex-wrap items-center gap-3">
+              <!-- Dropdown Periode Waktu Fleksibel -->
+              <div class="relative flex-1 sm:flex-initial min-w-[220px]">
+                <div class="flex items-center bg-gray-50/80 hover:bg-white border border-gray-200 hover:border-brand-500 rounded-xl px-3.5 py-2.5 transition shadow-2xs focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/10 focus-within:bg-white">
+                  <div class="w-8 h-8 rounded-lg bg-brand-50 text-brand-700 flex items-center justify-center mr-2.5 shrink-0 border border-brand-100">
+                    <i class="fa-regular fa-calendar-days text-sm"></i>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none mb-1">Periode</p>
+                    <select id="filter-period" onchange="onPeriodSelect(this.value)"
+                      class="bg-transparent text-sm font-bold text-gray-800 focus:outline-none cursor-pointer w-full">
+                      <option value="this_month">Bulan Ini (Mei 2026)</option>
+                      <option value="last_1_month">1 Bulan Lalu (April 2026)</option>
+                      <option value="last_2_months">2 Bulan Lalu (Maret 2026)</option>
+                      <option value="last_4_months">4 Bulan Terakhir</option>
+                      <option value="this_year">Tahun Ini (2026)</option>
+                      <option value="custom">📅 Kustom Rentang Tanggal...</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dropdown Platform -->
+              <div class="relative flex-1 sm:flex-initial min-w-[190px]">
+                <div class="flex items-center bg-gray-50/80 hover:bg-white border border-gray-200 hover:border-brand-500 rounded-xl px-3.5 py-2.5 transition shadow-2xs focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/10 focus-within:bg-white">
+                  <div id="platform-icon-wrap" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-700 flex items-center justify-center mr-2.5 shrink-0 transition-colors">
+                    <i id="platform-filter-icon" class="fa-solid fa-layer-group text-sm"></i>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none mb-1">Platform</p>
+                    <select id="filter-platform" onchange="onPlatformSelect(this.value)"
+                      class="bg-transparent text-sm font-bold text-gray-800 focus:outline-none cursor-pointer w-full">
+                      <option value="all">Semua Platform</option>
+                      <option value="tiktok">TikTok Live</option>
+                      <option value="shopee">Shopee Live</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel Kustom Rentang Tanggal (Simpel & Font Lebih Besar) -->
+            <div id="custom-date-panel" class="hidden mt-3.5 pt-3.5 border-t border-gray-100">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gray-50/90 p-3.5 rounded-xl border border-gray-200/90">
+                <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+                  <span class="font-bold text-sm text-gray-700 flex items-center gap-1.5 shrink-0">
+                    <i class="fa-regular fa-calendar-check text-brand-600"></i> Rentang Tanggal:
+                  </span>
+                  <div class="flex items-center gap-2">
+                    <div class="flex items-center bg-white px-3 py-2 rounded-xl border border-gray-200 shadow-2xs focus-within:border-brand-500">
+                      <span class="text-xs font-bold text-gray-400 mr-2 uppercase">Dari</span>
+                      <input type="date" id="custom-date-from" value="2026-05-01" max="2026-12-31" class="text-sm font-semibold text-gray-800 focus:outline-none bg-transparent cursor-pointer" />
+                    </div>
+                    <span class="text-gray-400 font-bold text-sm">—</span>
+                    <div class="flex items-center bg-white px-3 py-2 rounded-xl border border-gray-200 shadow-2xs focus-within:border-brand-500">
+                      <span class="text-xs font-bold text-gray-400 mr-2 uppercase">Sampai</span>
+                      <input type="date" id="custom-date-to" value="2026-05-28" max="2026-12-31" class="text-sm font-semibold text-gray-800 focus:outline-none bg-transparent cursor-pointer" />
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <button onclick="applyCustomDateFilter()"
+                    class="bg-brand-600 hover:bg-brand-700 active:scale-95 text-white font-semibold px-4 py-2 rounded-xl text-sm shadow-sm transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-check text-xs"></i> Terapkan
+                  </button>
+                  <button onclick="cancelCustomDateFilter()"
+                    class="bg-white hover:bg-gray-100 text-gray-600 font-semibold px-3.5 py-2 rounded-xl text-sm border border-gray-200 transition">
+                    Batal
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="grid grid-cols-2 gap-3 mb-5 lg:grid-cols-4 lg:gap-4 lg:mb-6" id="kpi-grid"></div>
+
+          <!-- KPI Grid (3 Cards Personal: Total Revenue, Total Penonton, Total Sesi) -->
+          <div class="grid grid-cols-2 gap-3 mb-5 lg:grid-cols-3 lg:gap-4 lg:mb-6" id="kpi-grid"></div>
+
+          <!-- Grafik & Leaderboard -->
           <div class="lg:grid lg:grid-cols-5 lg:gap-6 lg:items-start">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-5 lg:mb-0 lg:col-span-3">
-              <h3 class="font-bold text-sm mb-4">Tren Revenue Harian</h3>
+            <!-- Tren Revenue -->
+            <div class="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 mb-5 lg:mb-0 lg:col-span-3">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 id="chart-title" class="font-bold text-sm text-gray-800">Tren Revenue Harian</h3>
+                  <p id="chart-subtitle" class="text-[11px] text-gray-500 mt-0.5">Pendapatan siaran personal @prita</p>
+                </div>
+                <span id="chart-badge" class="text-[10px] font-bold text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full border border-brand-200">
+                  Semua Platform
+                </span>
+              </div>
               <div class="w-full h-48 lg:h-72"><canvas id="revenueChart"></canvas></div>
             </div>
+
+            <!-- Top Host Revenue Panel (dengan detail Host Aktif yang dipindahkan) -->
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden lg:col-span-2">
-              <div class="px-4 py-3 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-                <h3 class="font-bold text-sm">Top Host Revenue</h3>
-                <button onclick="showCustomAlert('File Excel sedang diunduh...')"
-                  class="text-[10px] bg-brand-50 text-brand-700 px-2 py-1 rounded font-semibold border border-brand-200"><i
-                    class="fa-solid fa-download mr-1"></i> Export</button>
+              <div class="px-4 py-3.5 border-b border-gray-100 flex justify-between items-center bg-gray-50/60">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="font-bold text-sm text-gray-800">Top Host Revenue</h3>
+                    <span id="host-aktif-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-2xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      8 Host Aktif
+                    </span>
+                  </div>
+                  <p class="text-[10px] text-gray-500 mt-0.5" id="host-aktif-subtitle">Peringkat tim berdasarkan total omzet</p>
+                </div>
+                <button onclick="exportLeaderboard()"
+                  class="text-[11px] bg-brand-50 hover:bg-brand-100 text-brand-700 px-2.5 py-1.5 rounded-lg font-semibold border border-brand-200 transition shadow-2xs flex items-center gap-1.5">
+                  <i class="fa-solid fa-download text-[10px]"></i> Export
+                </button>
               </div>
+
+              <!-- Host Aktif Detail Strip (informasi detail dari card host aktif yang dipindahkan) -->
+              <div class="bg-gradient-to-r from-emerald-50/70 via-emerald-50/30 to-white px-4 py-2.5 border-b border-gray-100 flex items-center justify-between text-xs">
+                <div class="flex items-center gap-2">
+                  <div class="w-6 h-6 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px]">
+                    <i class="fa-solid fa-users"></i>
+                  </div>
+                  <span class="text-[11px] font-semibold text-gray-700" id="host-active-summary">
+                    <strong>8 Host Aktif</strong> • 0% vs bln lalu
+                  </span>
+                </div>
+                <span class="text-[10px] font-bold text-emerald-700 bg-white px-2 py-0.5 rounded border border-emerald-200 shadow-2xs">
+                  100% On-Duty
+                </span>
+              </div>
+
+              <!-- Leaderboard List -->
               <div class="divide-y divide-gray-100" id="leaderboard"></div>
+
+              <!-- Footer Toggle Host List -->
+              <div class="p-2.5 text-center bg-gray-50/50 border-t border-gray-100">
+                <button id="btn-toggle-hosts" onclick="toggleLeaderboardExpand()"
+                  class="text-xs font-semibold text-brand-700 hover:text-brand-800 transition inline-flex items-center gap-1.5 py-0.5">
+                  <span id="leaderboard-expand-label">Lihat Semua (8 Host Aktif)</span>
+                  <i id="leaderboard-expand-icon" class="fa-solid fa-chevron-down text-[10px]"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -687,46 +813,80 @@
                 class="fa-solid fa-plus"></i> Ajukan Cuti/Izin</button>
             </div>
             <div>
-            <h4 class="font-bold text-sm mb-3">Riwayat Pengajuan</h4>
-            <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm opacity-60">
-              <div class="flex justify-between mb-2"><span
-                  class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded">Izin Sakit</span><span
-                  class="text-[10px] font-bold text-green-600"><i class="fa-solid fa-check"></i> Disetujui</span></div>
-              <p class="text-sm font-semibold">14 Apr 2026</p>
-              <p class="text-xs text-gray-500 mt-1">Demam berdarah (Surat dokter terlampir)</p>
-            </div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <h4 class="font-bold text-sm text-gray-800">Riwayat Pengajuan</h4>
+                  <span id="riwayat-count" class="text-[10px] font-bold bg-brand-50 text-brand-700 px-2.5 py-0.5 rounded-full border border-brand-200">
+                    3 Pengajuan
+                  </span>
+                </div>
+              </div>
+
+              <!-- Filter Bar Riwayat Pengajuan -->
+              <div class="flex flex-wrap items-center gap-2 mb-3">
+                <!-- Filter Status -->
+                <div class="flex items-center bg-white border border-gray-200 rounded-xl px-2.5 py-1.5 shadow-2xs">
+                  <i class="fa-solid fa-filter text-gray-400 text-[10px] mr-1.5"></i>
+                  <select id="filter-riwayat-status" onchange="onRiwayatFilterChange()"
+                    class="bg-transparent text-xs font-semibold text-gray-700 focus:outline-none cursor-pointer pr-1">
+                    <option value="all">Semua Status</option>
+                    <option value="disetujui">Disetujui</option>
+                    <option value="tidak_disetujui">Tidak Disetujui</option>
+                    <option value="menunggu">Menunggu</option>
+                  </select>
+                </div>
+
+                <!-- Filter Urutan (Terbaru / Terlama) -->
+                <div class="flex items-center bg-white border border-gray-200 rounded-xl px-2.5 py-1.5 shadow-2xs">
+                  <i class="fa-solid fa-arrow-down-wide-short text-gray-400 text-[10px] mr-1.5"></i>
+                  <select id="filter-riwayat-sort" onchange="onRiwayatFilterChange()"
+                    class="bg-transparent text-xs font-semibold text-gray-700 focus:outline-none cursor-pointer pr-1">
+                    <option value="terbaru">Terbaru</option>
+                    <option value="terlama">Terlama</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Daftar Riwayat Pengajuan Dinamis -->
+              <div id="riwayat-list" class="space-y-3"></div>
             </div>
             </div>
           </div>
           <div id="sub-gaji" class="hidden lg:max-w-xl">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="font-bold">Periode</h3>
-              <select class="bg-white border border-gray-200 text-sm rounded-lg px-3 py-1.5 font-medium">
-                <option>April 2026</option>
-                <option>Maret 2026</option>
+              <h3 class="font-bold text-sm text-gray-800">Periode Slip Gaji</h3>
+              <select id="select-periode-gaji" onchange="onGajiPeriodChange(this.value)"
+                class="bg-white border border-gray-200 text-sm rounded-lg px-3 py-1.5 font-semibold text-gray-700 shadow-2xs focus:outline-none focus:border-brand-500 cursor-pointer">
+                <option value="Mei 2026">Mei 2026</option>
+                <option value="April 2026" selected>April 2026</option>
+                <option value="Maret 2026">Maret 2026</option>
+                <option value="Februari 2026">Februari 2026</option>
+                <option value="Januari 2026">Januari 2026</option>
+                <option value="Desember 2025">Desember 2025</option>
+                <option value="November 2025">November 2025</option>
+                <option value="Oktober 2025">Oktober 2025</option>
               </select>
             </div>
-            <div class="bg-gradient-to-br from-brand-700 to-brand-900 rounded-2xl shadow-lg text-white p-5">
-              <div class="flex items-center gap-2 mb-6"><i class="fa-solid fa-file-invoice text-brand-200"></i>
-                <h4 class="font-bold text-brand-50 text-sm">Slip Gaji - April 2026</h4>
+            <div class="bg-gradient-to-br from-brand-700 via-brand-800 to-brand-900 rounded-2xl shadow-lg text-white p-5 transition-all duration-300">
+              <div class="flex items-center gap-2 mb-6">
+                <i class="fa-solid fa-file-invoice text-brand-200"></i>
+                <h4 id="gaji-title" class="font-bold text-brand-50 text-sm">Slip Gaji - April 2026</h4>
               </div>
               <div class="space-y-3 mb-6 text-sm">
-                <div class="flex justify-between"><span class="text-brand-100">Gaji Pokok</span><span
-                    class="font-semibold">+ Rp 1.500.000</span></div>
-                <div class="flex justify-between"><span class="text-brand-100">Tunjangan</span><span
-                    class="font-semibold">+ Rp 0</span></div>
-                <div class="flex justify-between"><span class="text-brand-100">Komisi Host</span><span
-                    class="font-semibold">+ Rp 250.000</span></div>
-                <div class="flex justify-between pt-2 border-t border-brand-600"><span
-                    class="text-brand-100">Potongan</span><span class="font-semibold text-red-300">- Rp 0</span></div>
+                <div class="flex justify-between"><span class="text-brand-100">Gaji Pokok</span><span id="gaji-pokok" class="font-semibold">+ Rp 1.500.000</span></div>
+                <div class="flex justify-between"><span class="text-brand-100">Tunjangan</span><span id="gaji-tunjangan" class="font-semibold">+ Rp 0</span></div>
+                <div class="flex justify-between"><span class="text-brand-100">Komisi Host</span><span id="gaji-komisi" class="font-semibold">+ Rp 250.000</span></div>
+                <div class="flex justify-between pt-2 border-t border-brand-600/80"><span class="text-brand-100">Potongan</span><span id="gaji-potongan" class="font-semibold text-red-300">- Rp 0</span></div>
               </div>
-              <div class="bg-black/20 p-4 rounded-xl flex justify-between items-center"><span
-                  class="text-xs font-bold text-brand-100 uppercase tracking-wider">Total Diterima</span><span
-                  class="text-xl font-bold">Rp 1.750.000</span></div>
+              <div class="bg-black/20 p-4 rounded-xl flex justify-between items-center">
+                <span class="text-xs font-bold text-brand-100 uppercase tracking-wider">Total Diterima</span>
+                <span id="gaji-total" class="text-xl font-bold text-white tracking-tight">Rp 1.750.000</span>
+              </div>
             </div>
-            <button onclick="showCustomAlert('Slip gaji sedang disiapkan untuk diunduh.')"
-              class="w-full mt-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-3 rounded-xl shadow-sm flex justify-center items-center gap-2"><i
-                class="fa-solid fa-file-pdf text-red-500"></i> Download PDF</button>
+            <button onclick="downloadSlipGaji()"
+              class="w-full mt-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-3 rounded-xl shadow-sm flex justify-center items-center gap-2 active:scale-95 transition">
+              <i class="fa-solid fa-file-pdf text-red-500"></i> Download PDF
+            </button>
           </div>
         </div>
 
@@ -737,9 +897,12 @@
             class="flex flex-col items-center mb-6 lg:mb-0 lg:py-10 lg:bg-white/80 lg:backdrop-blur-sm lg:rounded-2xl lg:border lg:border-gray-100 lg:shadow-sm">
             <div
               class="w-24 h-24 rounded-full bg-brand-100 border-4 border-white shadow-md mb-3 flex items-center justify-center text-brand-700 text-3xl font-bold">
-              AM</div>
-            <h2 class="text-lg font-bold">Puspita Putri Chamelia</h2>
-            <p class="text-sm text-gray-500">@amel • Host Live</p>
+              PY</div>
+            <h2 class="text-lg font-bold">Prita Yuliani</h2>
+            <p class="text-sm text-gray-500">@prita • Host Live</p>
+            <button onclick="handleLogout()" class="mt-3 md:hidden text-xs font-semibold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 px-3.5 py-1.5 rounded-xl border border-red-200 transition flex items-center gap-1.5">
+              <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i> Keluar dari Akun
+            </button>
           </div>
           <div class="space-y-4 lg:col-span-2">
             <details class="group bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden" open>
@@ -749,11 +912,11 @@
               <div class="p-4 pt-0 grid grid-cols-2 gap-y-3 text-sm">
                 <div>
                   <p class="text-[10px] text-gray-400 font-semibold uppercase">Nama Lengkap</p>
-                  <p class="font-medium">Puspita Putri C.</p>
+                  <p class="font-medium">Prita Yuliani</p>
                 </div>
                 <div>
                   <p class="text-[10px] text-gray-400 font-semibold uppercase">Username</p>
-                  <p class="font-medium">@amel</p>
+                  <p class="font-medium">@prita</p>
                 </div>
                 <div>
                   <p class="text-[10px] text-gray-400 font-semibold uppercase">Jabatan</p>
@@ -822,6 +985,29 @@
     </div>
   </div>
 
+  <!-- MODAL KONFIRMASI KELUAR (LOGOUT) -->
+  <div id="modal-confirm-logout"
+    class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+    <div class="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-sm modal-enter text-center">
+      <div
+        class="w-16 h-16 bg-red-50 text-red-600 rounded-full flex items-center justify-center text-2xl mx-auto mb-4 border border-red-100">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      </div>
+      <h3 class="text-lg font-bold text-gray-900 mb-1.5">Konfirmasi Keluar</h3>
+      <p class="text-sm text-gray-500 mb-6 leading-relaxed">Apakah kamu yakin ingin keluar dari akun ini? Sesi kerjamu saat ini akan diakhiri.</p>
+      <div class="flex gap-3">
+        <button onclick="closeConfirmLogout()"
+          class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 rounded-xl transition-all">
+          Batal
+        </button>
+        <button onclick="executeLogout()"
+          class="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl transition-all shadow-md active:scale-95">
+          Ya, Keluar
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL CUTI -->
   <div id="modal-cuti"
     class="hidden fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/50 backdrop-blur-sm">
@@ -839,25 +1025,32 @@
             class="border-2 border-brand-500 bg-brand-50 text-brand-700 font-semibold py-2 rounded-xl text-sm transition-colors">Cuti
             Tahunan</button>
           <button type="button" id="btn-jenis-sakit" onclick="selectJenisCuti('sakit')"
-            class="border border-gray-200 text-gray-600 font-semibold py-2 rounded-xl text-sm transition-colors">Izin
-            Sakit</button>
+            class="border border-gray-200 text-gray-600 font-semibold py-2 rounded-xl text-sm transition-colors">Izin</button>
         </div>
         <div id="card-surat-dokter"
           class="hidden bg-brand-50/60 border border-dashed border-brand-300 rounded-xl p-4 text-center fade-in">
-          <i class="fa-solid fa-file-medical text-2xl text-brand-600 mb-2"></i>
-          <p class="text-xs font-semibold text-gray-700">Lampirkan Surat Dokter</p>
+          <i class="fa-solid fa-file-lines text-2xl text-brand-600 mb-2"></i>
+          <p class="text-xs font-semibold text-gray-700">Lampiran Surat</p>
           <p class="text-[11px] text-gray-400 mt-0.5 mb-3">Format JPG, PNG, atau PDF (maks. 5MB)</p>
           <button type="button"
-            onclick="showCustomAlert('Unggah Berkas', 'Fitur unggah surat dokter akan segera hadir.')"
+            onclick="showCustomAlert('Unggah Berkas', 'Fitur unggah lampiran surat akan segera hadir.')"
             class="text-xs font-semibold text-brand-700 bg-white border border-brand-200 px-4 py-2 rounded-lg hover:bg-brand-100"><i
               class="fa-solid fa-upload mr-1"></i> Pilih File</button>
         </div>
-        <div><label class="block text-xs font-semibold text-gray-600 mb-1">Tanggal Mulai</label><input type="date"
-            class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm"></div>
-        <div><label class="block text-xs font-semibold text-gray-600 mb-1">Tanggal Selesai</label><input type="date"
-            class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm"></div>
-        <textarea rows="3" placeholder="Jelaskan alasan pengajuan..."
-          class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm resize-none"></textarea>
+        <div><label class="block text-xs font-semibold text-gray-600 mb-1">Tanggal Mulai</label><input type="date" id="cuti-tanggal-mulai"
+            class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-brand-500"></div>
+        <div><label class="block text-xs font-semibold text-gray-600 mb-1">Tanggal Selesai</label><input type="date" id="cuti-tanggal-selesai"
+            class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-brand-500"></div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1">Alasan Pengajuan <span class="text-red-500">*</span></label>
+          <textarea id="cuti-alasan" rows="3" placeholder="Jelaskan alasan pengajuan (wajib diisi)..."
+            oninput="if(this.value.trim()){ document.getElementById('cuti-error-msg')?.classList.add('hidden'); this.classList.remove('border-red-500', 'bg-red-50/20'); }"
+            class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm resize-none focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors"></textarea>
+          <!-- Notifikasi Error Tulisan Merah (Tanpa Modal) -->
+          <p id="cuti-error-msg" class="hidden text-xs text-red-500 font-semibold mt-1.5 flex items-center gap-1.5">
+            <i class="fa-solid fa-circle-exclamation text-xs"></i> Alasan pengajuan wajib diisi!
+          </p>
+        </div>
       </div>
       <div class="p-5 border-t border-gray-100 bg-gray-50 rounded-b-3xl">
         <button onclick="submitCuti()"
@@ -942,6 +1135,25 @@
           <button id="absen-loc-retry" onclick="startLocation()"
             class="hidden shrink-0 text-xs font-semibold text-brand-600">Coba lagi</button>
         </div>
+
+        <!-- Status Deteksi Waktu Jam Masuk & Keluar Shift -->
+        <div id="absen-time-status" class="flex items-center gap-3 rounded-2xl border px-3 py-2.5 transition-colors bg-gray-50 border-gray-200">
+          <div id="absen-time-icon" class="w-9 h-9 rounded-full flex items-center justify-center shrink-0 bg-gray-100 text-gray-500">
+            <i id="absen-time-i" class="fa-regular fa-clock"></i>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-semibold text-gray-800" id="absen-time-title">Waktu Shift Kerja</p>
+            <p class="text-xs text-gray-500" id="absen-time-sub">Memeriksa jadwal shift...</p>
+          </div>
+        </div>
+
+        <!-- Notifikasi Kasus Gagal Absen di Dalam Modal (Tulisan Merah Saja) -->
+        <div id="modal-absen-error" class="hidden p-3 rounded-2xl bg-red-50 border border-red-200 text-xs text-red-600 font-medium transition-all">
+          <div class="flex items-start gap-2.5">
+            <i class="fa-solid fa-circle-exclamation text-base shrink-0 mt-0.5 text-red-600"></i>
+            <div class="flex-1 leading-relaxed space-y-1" id="modal-absen-error-content"></div>
+          </div>
+        </div>
         <div class="flex gap-3 pt-1">
           <button id="btn-shutter" onclick="takePhoto()"
             class="flex-1 bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3.5 rounded-xl shadow-md active:scale-95 flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"><i
@@ -965,7 +1177,6 @@
       <div class="px-5 py-4 border-b border-gray-100 flex justify-between items-center">
         <div>
           <h3 class="font-bold">Jadwal Live Saya</h3>
-          <p class="text-xs text-gray-500 mt-0.5" id="schedule-summary"></p>
         </div>
         <button onclick="closeSchedule()" class="w-8 h-8 rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200"><i
             class="fa-solid fa-times"></i></button>
@@ -984,20 +1195,402 @@
       { id: 'admin', icon: 'fa-file-invoice', label: 'Administrasi', short: 'Admin', title: 'Administrasi' },
       { id: 'profile', icon: 'fa-user', label: 'Profil', short: 'Profil', title: 'Profil Saya' }
     ];
-    const KPI = [
-      ['Total Revenue', 'Rp 197.5jt', '+14% vs bln lalu', 'up', 'text-brand-700'],
-      ['Penonton', '94.997', '-5% vs bln lalu', 'down', 'text-gray-800'],
-      ['Total Sesi', '427', '+4% vs bln lalu', 'up', 'text-gray-800'],
-      ['Host Aktif', '8', '0% vs bln lalu', 'flat', 'text-gray-800']
-    ];
-    const HOSTS = [
-      ['AMEL', 'AM', 57, 'Rp 35.0jt', '11.026', 'bg-brand-100 text-brand-700'],
-      ['VIRA', 'VI', 45, 'Rp 29.2jt', '14.867', 'bg-blue-100 text-blue-700'],
-      ['SALMAA', 'SA', 68, 'Rp 28.9jt', '19.695', 'bg-orange-100 text-orange-700']
-    ];
+    /* State & Dataset Performa Terintegrasi */
+    let currentPeriod = 'this_month';
+    let currentPlatform = 'all';
+    let customDateFrom = '2026-05-01';
+    let customDateTo = '2026-05-28';
+    let showAllHosts = false;
+
+    const PERFORMANCE_DATA = {
+      this_month: {
+        label: 'Mei 2026',
+        periodType: 'harian',
+        labels: ['01 Mei', '05 Mei', '10 Mei', '15 Mei', '20 Mei', '25 Mei', '28 Mei'],
+        personal: {
+          all: {
+            revenue: 'Rp 35.0jt',
+            revenueTrend: '+18% vs bln lalu',
+            revenueTrendType: 'up',
+            penonton: '11.026',
+            penontonTrend: '+12% vs bln lalu',
+            penontonTrendType: 'up',
+            sesi: '57 Sesi',
+            sesiTrend: '+6% vs bln lalu',
+            sesiTrendType: 'up',
+            tiktokLine: [2.5, 3.2, 2.8, 4.1, 3.5, 5.2, 4.8],
+            shopeeLine: [1.4, 1.8, 2.1, 1.9, 2.6, 2.2, 2.7]
+          },
+          tiktok: {
+            revenue: 'Rp 21.8jt',
+            revenueTrend: '+22% vs bln lalu',
+            revenueTrendType: 'up',
+            penonton: '6.840',
+            penontonTrend: '+15% vs bln lalu',
+            penontonTrendType: 'up',
+            sesi: '34 Sesi',
+            sesiTrend: '+9% vs bln lalu',
+            sesiTrendType: 'up',
+            tiktokLine: [2.5, 3.2, 2.8, 4.1, 3.5, 5.2, 4.8]
+          },
+          shopee: {
+            revenue: 'Rp 13.2jt',
+            revenueTrend: '+11% vs bln lalu',
+            revenueTrendType: 'up',
+            penonton: '4.186',
+            penontonTrend: '+7% vs bln lalu',
+            penontonTrendType: 'up',
+            sesi: '23 Sesi',
+            sesiTrend: '+3% vs bln lalu',
+            sesiTrendType: 'up',
+            shopeeLine: [1.4, 1.8, 2.1, 1.9, 2.6, 2.2, 2.7]
+          }
+        },
+        hosts: {
+          all: [
+            ['PRITA', 'PY', 57, 'Rp 35.0jt', '11.026', 'bg-brand-100 text-brand-700', true],
+            ['VIRA', 'VI', 45, 'Rp 29.2jt', '14.867', 'bg-blue-100 text-blue-700', false],
+            ['SALMAA', 'SA', 68, 'Rp 28.9jt', '19.695', 'bg-orange-100 text-orange-700', false],
+            ['NADIA', 'NA', 41, 'Rp 26.4jt', '10.450', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 38, 'Rp 24.1jt', '9.820', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 36, 'Rp 22.8jt', '8.940', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 32, 'Rp 21.5jt', '8.410', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 30, 'Rp 19.6jt', '7.890', 'bg-amber-100 text-amber-700', false]
+          ],
+          tiktok: [
+            ['PRITA', 'PY', 34, 'Rp 21.8jt', '6.840', 'bg-brand-100 text-brand-700', true],
+            ['VIRA', 'VI', 28, 'Rp 18.5jt', '9.210', 'bg-blue-100 text-blue-700', false],
+            ['SALMAA', 'SA', 40, 'Rp 17.2jt', '11.500', 'bg-orange-100 text-orange-700', false],
+            ['NADIA', 'NA', 25, 'Rp 16.0jt', '6.420', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 22, 'Rp 14.8jt', '5.950', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 20, 'Rp 13.9jt', '5.340', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 19, 'Rp 13.1jt', '5.120', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 17, 'Rp 11.9jt', '4.750', 'bg-amber-100 text-amber-700', false]
+          ],
+          shopee: [
+            ['PRITA', 'PY', 23, 'Rp 13.2jt', '4.186', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 28, 'Rp 11.7jt', '8.195', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 17, 'Rp 10.7jt', '5.657', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 16, 'Rp 10.4jt', '4.030', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 16, 'Rp 9.3jt', '3.870', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 16, 'Rp 8.9jt', '3.600', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 13, 'Rp 8.4jt', '3.290', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 13, 'Rp 7.7jt', '3.140', 'bg-amber-100 text-amber-700', false]
+          ]
+        }
+      },
+
+      last_1_month: {
+        label: 'April 2026',
+        periodType: 'harian',
+        labels: ['01 Apr', '05 Apr', '10 Apr', '15 Apr', '20 Apr', '25 Apr', '30 Apr'],
+        personal: {
+          all: {
+            revenue: 'Rp 29.6jt',
+            revenueTrend: '+8% vs Mar 2026',
+            revenueTrendType: 'up',
+            penonton: '9.850',
+            penontonTrend: '-3% vs Mar 2026',
+            penontonTrendType: 'down',
+            sesi: '54 Sesi',
+            sesiTrend: '+2% vs Mar 2026',
+            sesiTrendType: 'up',
+            tiktokLine: [2.1, 2.8, 2.4, 3.5, 3.0, 4.2, 3.9],
+            shopeeLine: [1.2, 1.6, 1.8, 1.5, 2.3, 1.9, 2.4]
+          },
+          tiktok: {
+            revenue: 'Rp 17.9jt',
+            revenueTrend: '+10% vs Mar 2026',
+            revenueTrendType: 'up',
+            penonton: '5.950',
+            penontonTrend: '+2% vs Mar 2026',
+            penontonTrendType: 'up',
+            sesi: '31 Sesi',
+            sesiTrend: '0% vs Mar 2026',
+            sesiTrendType: 'flat',
+            tiktokLine: [2.1, 2.8, 2.4, 3.5, 3.0, 4.2, 3.9]
+          },
+          shopee: {
+            revenue: 'Rp 11.7jt',
+            revenueTrend: '+5% vs Mar 2026',
+            revenueTrendType: 'up',
+            penonton: '3.900',
+            penontonTrend: '-8% vs Mar 2026',
+            penontonTrendType: 'down',
+            sesi: '23 Sesi',
+            sesiTrend: '+4% vs Mar 2026',
+            sesiTrendType: 'up',
+            shopeeLine: [1.2, 1.6, 1.8, 1.5, 2.3, 1.9, 2.4]
+          }
+        },
+        hosts: {
+          all: [
+            ['PRITA', 'PY', 54, 'Rp 29.6jt', '9.850', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 62, 'Rp 27.5jt', '17.820', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 42, 'Rp 26.8jt', '13.410', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 39, 'Rp 23.2jt', '9.500', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 36, 'Rp 22.0jt', '9.100', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 34, 'Rp 20.4jt', '8.200', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 31, 'Rp 19.8jt', '7.950', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 29, 'Rp 18.2jt', '7.400', 'bg-amber-100 text-amber-700', false]
+          ],
+          tiktok: [
+            ['PRITA', 'PY', 31, 'Rp 17.9jt', '5.950', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 36, 'Rp 16.2jt', '10.200', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 26, 'Rp 16.0jt', '8.100', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 24, 'Rp 14.1jt', '5.800', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 21, 'Rp 13.5jt', '5.500', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 19, 'Rp 12.4jt', '4.900', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 18, 'Rp 12.0jt', '4.800', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 16, 'Rp 10.9jt', '4.400', 'bg-amber-100 text-amber-700', false]
+          ],
+          shopee: [
+            ['PRITA', 'PY', 23, 'Rp 11.7jt', '3.900', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 26, 'Rp 11.3jt', '7.620', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 16, 'Rp 10.8jt', '5.310', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 15, 'Rp 9.1jt', '3.700', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 15, 'Rp 8.5jt', '3.600', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 15, 'Rp 8.0jt', '3.300', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 13, 'Rp 7.8jt', '3.150', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 13, 'Rp 7.3jt', '3.000', 'bg-amber-100 text-amber-700', false]
+          ]
+        }
+      },
+
+      last_2_months: {
+        label: 'Maret 2026',
+        periodType: 'harian',
+        labels: ['01 Mar', '05 Mar', '10 Mar', '15 Mar', '20 Mar', '25 Mar', '31 Mar'],
+        personal: {
+          all: {
+            revenue: 'Rp 27.4jt',
+            revenueTrend: '+12% vs Feb 2026',
+            revenueTrendType: 'up',
+            penonton: '10.150',
+            penontonTrend: '+14% vs Feb 2026',
+            penontonTrendType: 'up',
+            sesi: '53 Sesi',
+            sesiTrend: '+5% vs Feb 2026',
+            sesiTrendType: 'up',
+            tiktokLine: [1.9, 2.5, 2.1, 3.1, 2.8, 3.9, 3.5],
+            shopeeLine: [1.1, 1.5, 1.7, 1.4, 2.2, 1.8, 2.1]
+          },
+          tiktok: {
+            revenue: 'Rp 16.3jt',
+            revenueTrend: '+14% vs Feb 2026',
+            revenueTrendType: 'up',
+            penonton: '5.830',
+            penontonTrend: '+16% vs Feb 2026',
+            penontonTrendType: 'up',
+            sesi: '31 Sesi',
+            sesiTrend: '+7% vs Feb 2026',
+            sesiTrendType: 'up',
+            tiktokLine: [1.9, 2.5, 2.1, 3.1, 2.8, 3.9, 3.5]
+          },
+          shopee: {
+            revenue: 'Rp 11.1jt',
+            revenueTrend: '+9% vs Feb 2026',
+            revenueTrendType: 'up',
+            penonton: '4.320',
+            penontonTrend: '+11% vs Feb 2026',
+            penontonTrendType: 'up',
+            sesi: '22 Sesi',
+            sesiTrend: '+2% vs Feb 2026',
+            sesiTrendType: 'up',
+            shopeeLine: [1.1, 1.5, 1.7, 1.4, 2.2, 1.8, 2.1]
+          }
+        },
+        hosts: {
+          all: [
+            ['SALMAA', 'SA', 65, 'Rp 28.1jt', '18.400', 'bg-orange-100 text-orange-700', false],
+            ['PRITA', 'PY', 53, 'Rp 27.4jt', '10.150', 'bg-brand-100 text-brand-700', true],
+            ['VIRA', 'VI', 40, 'Rp 25.1jt', '12.900', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 38, 'Rp 21.8jt', '9.100', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 35, 'Rp 20.5jt', '8.700', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 33, 'Rp 19.3jt', '7.900', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 30, 'Rp 18.6jt', '7.600', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 28, 'Rp 17.1jt', '7.100', 'bg-amber-100 text-amber-700', false]
+          ],
+          tiktok: [
+            ['SALMAA', 'SA', 38, 'Rp 16.8jt', '10.800', 'bg-orange-100 text-orange-700', false],
+            ['PRITA', 'PY', 31, 'Rp 16.3jt', '5.830', 'bg-brand-100 text-brand-700', true],
+            ['VIRA', 'VI', 25, 'Rp 15.2jt', '7.900', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 23, 'Rp 13.2jt', '5.500', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 20, 'Rp 12.6jt', '5.200', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 19, 'Rp 11.7jt', '4.700', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 18, 'Rp 11.3jt', '4.600', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 16, 'Rp 10.3jt', '4.200', 'bg-amber-100 text-amber-700', false]
+          ],
+          shopee: [
+            ['SALMAA', 'SA', 27, 'Rp 11.3jt', '7.600', 'bg-orange-100 text-orange-700', false],
+            ['PRITA', 'PY', 22, 'Rp 11.1jt', '4.320', 'bg-brand-100 text-brand-700', true],
+            ['VIRA', 'VI', 15, 'Rp 9.9jt', '5.000', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 15, 'Rp 8.6jt', '3.600', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 15, 'Rp 7.9jt', '3.500', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 14, 'Rp 7.6jt', '3.200', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 12, 'Rp 7.3jt', '3.000', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 12, 'Rp 6.8jt', '2.900', 'bg-amber-100 text-amber-700', false]
+          ]
+        }
+      },
+
+      last_4_months: {
+        label: '4 Bulan Terakhir',
+        periodType: 'bulanan',
+        labels: ['Feb 2026', 'Mar 2026', 'Apr 2026', 'Mei 2026'],
+        personal: {
+          all: {
+            revenue: 'Rp 116.5jt',
+            revenueTrend: '+15% vs 4 bln sblmnya',
+            revenueTrendType: 'up',
+            penonton: '40.230',
+            penontonTrend: '+9% vs 4 bln sblmnya',
+            penontonTrendType: 'up',
+            sesi: '214 Sesi',
+            sesiTrend: '+8% vs 4 bln sblmnya',
+            sesiTrendType: 'up',
+            tiktokLine: [15.0, 16.3, 17.9, 21.8],
+            shopeeLine: [9.5, 11.1, 11.7, 13.2]
+          },
+          tiktok: {
+            revenue: 'Rp 71.0jt',
+            revenueTrend: '+18% vs 4 bln sblmnya',
+            revenueTrendType: 'up',
+            penonton: '24.320',
+            penontonTrend: '+12% vs 4 bln sblmnya',
+            penontonTrendType: 'up',
+            sesi: '124 Sesi',
+            sesiTrend: '+10% vs 4 bln sblmnya',
+            sesiTrendType: 'up',
+            tiktokLine: [15.0, 16.3, 17.9, 21.8]
+          },
+          shopee: {
+            revenue: 'Rp 45.5jt',
+            revenueTrend: '+11% vs 4 bln sblmnya',
+            revenueTrendType: 'up',
+            penonton: '15.910',
+            penontonTrend: '+5% vs 4 bln sblmnya',
+            penontonTrendType: 'up',
+            sesi: '90 Sesi',
+            sesiTrend: '+5% vs 4 bln sblmnya',
+            sesiTrendType: 'up',
+            shopeeLine: [9.5, 11.1, 11.7, 13.2]
+          }
+        },
+        hosts: {
+          all: [
+            ['PRITA', 'PY', 214, 'Rp 116.5jt', '40.230', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 255, 'Rp 110.2jt', '72.100', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 169, 'Rp 104.5jt', '52.600', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 154, 'Rp 93.6jt', '37.800', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 144, 'Rp 87.2jt', '35.400', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 136, 'Rp 82.5jt', '32.100', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 125, 'Rp 78.4jt', '30.800', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 115, 'Rp 71.8jt', '28.900', 'bg-amber-100 text-amber-700', false]
+          ],
+          tiktok: [
+            ['PRITA', 'PY', 124, 'Rp 71.0jt', '24.320', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 150, 'Rp 66.8jt', '43.200', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 103, 'Rp 64.2jt', '32.100', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 94, 'Rp 57.0jt', '22.900', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 88, 'Rp 53.6jt', '21.500', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 81, 'Rp 50.1jt', '19.400', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 76, 'Rp 47.9jt', '18.700', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 68, 'Rp 43.5jt', '17.300', 'bg-amber-100 text-amber-700', false]
+          ],
+          shopee: [
+            ['PRITA', 'PY', 90, 'Rp 45.5jt', '15.910', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 105, 'Rp 43.4jt', '28.900', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 66, 'Rp 40.3jt', '20.500', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 60, 'Rp 36.6jt', '14.900', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 56, 'Rp 33.6jt', '13.900', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 55, 'Rp 32.4jt', '12.700', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 49, 'Rp 30.5jt', '12.100', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 47, 'Rp 28.3jt', '11.600', 'bg-amber-100 text-amber-700', false]
+          ]
+        }
+      },
+
+      this_year: {
+        label: 'Tahun 2026',
+        periodType: 'bulanan',
+        labels: ['Jan 2026', 'Feb 2026', 'Mar 2026', 'Apr 2026', 'Mei 2026'],
+        personal: {
+          all: {
+            revenue: 'Rp 139.8jt',
+            revenueTrend: '+21% vs 2025',
+            revenueTrendType: 'up',
+            penonton: '48.730',
+            penontonTrend: '+16% vs 2025',
+            penontonTrendType: 'up',
+            sesi: '262 Sesi',
+            sesiTrend: '+14% vs 2025',
+            sesiTrendType: 'up',
+            tiktokLine: [14.2, 15.0, 16.3, 17.9, 21.8],
+            shopeeLine: [9.1, 9.5, 11.1, 11.7, 13.2]
+          },
+          tiktok: {
+            revenue: 'Rp 85.2jt',
+            revenueTrend: '+24% vs 2025',
+            revenueTrendType: 'up',
+            penonton: '29.520',
+            penontonTrend: '+19% vs 2025',
+            penontonTrendType: 'up',
+            sesi: '152 Sesi',
+            sesiTrend: '+15% vs 2025',
+            sesiTrendType: 'up',
+            tiktokLine: [14.2, 15.0, 16.3, 17.9, 21.8]
+          },
+          shopee: {
+            revenue: 'Rp 54.6jt',
+            revenueTrend: '+17% vs 2025',
+            revenueTrendType: 'up',
+            penonton: '19.210',
+            penontonTrend: '+11% vs 2025',
+            penontonTrendType: 'up',
+            sesi: '110 Sesi',
+            sesiTrend: '+12% vs 2025',
+            sesiTrendType: 'up',
+            shopeeLine: [9.1, 9.5, 11.1, 11.7, 13.2]
+          }
+        },
+        hosts: {
+          all: [
+            ['PRITA', 'PY', 262, 'Rp 139.8jt', '48.730', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 315, 'Rp 133.5jt', '86.400', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 208, 'Rp 126.1jt', '63.500', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 188, 'Rp 112.4jt', '45.100', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 176, 'Rp 105.1jt', '42.300', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 165, 'Rp 99.4jt', '38.600', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 152, 'Rp 94.2jt', '36.900', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 141, 'Rp 86.9jt', '34.800', 'bg-amber-100 text-amber-700', false]
+          ],
+          tiktok: [
+            ['PRITA', 'PY', 152, 'Rp 85.2jt', '29.520', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 185, 'Rp 81.3jt', '52.100', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 127, 'Rp 77.5jt', '38.600', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 114, 'Rp 68.4jt', '27.400', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 108, 'Rp 64.6jt', '25.800', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 99, 'Rp 60.3jt', '23.300', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 92, 'Rp 57.5jt', '22.400', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 83, 'Rp 52.6jt', '20.800', 'bg-amber-100 text-amber-700', false]
+          ],
+          shopee: [
+            ['PRITA', 'PY', 110, 'Rp 54.6jt', '19.210', 'bg-brand-100 text-brand-700', true],
+            ['SALMAA', 'SA', 130, 'Rp 52.2jt', '34.300', 'bg-orange-100 text-orange-700', false],
+            ['VIRA', 'VI', 81, 'Rp 48.6jt', '24.900', 'bg-blue-100 text-blue-700', false],
+            ['NADIA', 'NA', 74, 'Rp 44.0jt', '17.700', 'bg-pink-100 text-pink-700', false],
+            ['RIZKY', 'RZ', 68, 'Rp 40.5jt', '16.500', 'bg-purple-100 text-purple-700', false],
+            ['DINA', 'DN', 66, 'Rp 39.1jt', '15.300', 'bg-emerald-100 text-emerald-700', false],
+            ['FAJAR', 'FJ', 60, 'Rp 36.7jt', '14.500', 'bg-indigo-100 text-indigo-700', false],
+            ['CLARA', 'CL', 58, 'Rp 34.3jt', '14.000', 'bg-amber-100 text-amber-700', false]
+          ]
+        }
+      }
+    };
     /* [hari ke- dari hari ini, jam mulai, jam selesai (24 = tengah malam), platform, rekan host] */
     const SHIFTS = [
-      [0, 19, 23, 'TikTok', 'Vira'],
+      [0, 18, 23, 'TikTok', 'Vira'],
       [1, 14, 18, 'Shopee', 'Salmaa'],
       [3, 19, 24, 'TikTok', ''],
       [4, 10, 14, 'Shopee', 'Vira'],
@@ -1014,12 +1607,11 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       $('current-date').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-      $('side-nav').innerHTML = NAV.map(n => `<button onclick="switchTab('${n.id}')" class="nav-item-desktop w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors" data-tab="${n.id}"><i class="fa-solid ${n.icon} w-5 text-center"></i> ${n.label}</button>`).join('');
+      $('side-nav').innerHTML = NAV.filter(n => n.id !== 'profile').map(n => `<button onclick="switchTab('${n.id}')" class="nav-item-desktop w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors" data-tab="${n.id}"><i class="fa-solid ${n.icon} w-5 text-center"></i> ${n.label}</button>`).join('');
       $('bottom-nav').innerHTML = NAV.map(n => `<button onclick="switchTab('${n.id}')" class="nav-item flex flex-col items-center gap-1 transition-colors" data-tab="${n.id}"><i class="fa-solid ${n.icon} text-xl"></i><span class="text-[10px] font-semibold">${n.short}</span></button>`).join('');
-      const trend = { up: ['text-green-600', 'fa-arrow-trend-up'], down: ['text-red-500', 'fa-arrow-trend-down'], flat: ['text-gray-500', 'fa-minus'] };
-      $('kpi-grid').innerHTML = KPI.map(([l, v, d, t, c]) => `<div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100"><p class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">${l}</p><h3 class="text-lg font-bold ${c}">${v}</h3><p class="text-[10px] ${trend[t][0]} mt-1 font-medium"><i class="fa-solid ${trend[t][1]}"></i> ${d}</p></div>`).join('');
-      $('leaderboard').innerHTML = HOSTS.map(([n, i, s, r, v, c], k) => `<div class="px-4 py-3 flex items-center gap-3"><span class="text-xs font-bold ${k ? 'text-gray-400' : 'text-brand-600'} w-4">${k + 1}</span><div class="w-8 h-8 rounded-full ${c} flex items-center justify-center text-xs font-bold">${i}</div><div class="flex-1"><p class="text-sm font-bold">${n}</p><p class="text-[10px] text-gray-500">${s} Sesi</p></div><div class="text-right"><p class="text-sm font-bold ${k ? 'text-gray-800' : 'text-brand-700'}">${r}</p><p class="text-[10px] text-gray-500">${v} Penonton</p></div></div>`).join('');
       switchTab('home');
+      updatePerformanceView();
+      renderRiwayatPengajuan();
     });
 
     /* Login */
@@ -1029,19 +1621,26 @@
       ic.className = show ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
     }
     function handleLogin() {
-      if ($('login-user').value === 'amel' && $('login-pass').value === 'bismillah') {
+      if ($('login-user').value === 'prita' && $('login-pass').value === 'bismillah') {
         $('view-login').style.opacity = '0';
         setTimeout(() => {
           $('view-login').classList.add('hidden');
           $('view-main').classList.remove('hidden');
           $('view-main').classList.add('flex');
-          renderChart();
+          updatePerformanceView();
         }, 500);
       } else {
         showCustomAlert('Login Gagal', 'Username atau password salah. Coba lagi');
       }
     }
     function handleLogout() {
+      $('modal-confirm-logout').classList.remove('hidden');
+    }
+    function closeConfirmLogout() {
+      $('modal-confirm-logout').classList.add('hidden');
+    }
+    function executeLogout() {
+      closeConfirmLogout();
       $('view-main').classList.add('hidden');
       $('view-main').classList.remove('flex');
       $('view-login').classList.remove('hidden');
@@ -1060,6 +1659,7 @@
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
       $('tab-' + id).classList.remove('hidden');
       if (id === 'home') renderSchedule();
+      if (id === 'performance') updatePerformanceView();
       const title = NAV.find(n => n.id === id).title;
       $('header-title').innerText = $('header-title-desktop').innerText = title;
       $('main-scroll-area').scrollTop = 0;
@@ -1075,11 +1675,17 @@
         el.classList.toggle('text-brand-100', !on);
         el.classList.toggle('hover:bg-brand-800', !on);
       });
+      const profBtn = $('header-profile-btn');
+      if (profBtn) {
+        profBtn.classList.toggle('bg-brand-100', id === 'profile');
+        profBtn.classList.toggle('border-brand-400', id === 'profile');
+      }
     }
     function switchAdminTab(sub) {
       const cuti = sub === 'cuti';
       $('sub-cuti').classList.toggle('hidden', !cuti);
       $('sub-gaji').classList.toggle('hidden', cuti);
+      if (cuti) renderRiwayatPengajuan();
       [['btn-tab-cuti', cuti], ['btn-tab-gaji', !cuti]].forEach(([id, on]) => {
         const b = $(id);
         ['bg-white', 'shadow-sm', 'text-gray-800'].forEach(c => b.classList.toggle(c, on));
@@ -1088,7 +1694,34 @@
     }
 
     /* Absensi: foto selfie + lokasi. Foto hanya tampil sementara di layar, tidak pernah disimpan atau dikirim. */
-    const ATT = { enforceRadius: false }; /* true = absen diblokir kalau di luar radius kantor */
+    const ATT = { enforceRadius: true }; /* true = absen diblokir kalau di luar radius kantor */
+
+    /* Deteksi Waktu Shift: Jam masuk & keluar dari shift saat itu juga atau shift berikutnya */
+    function getShiftCheck() {
+      const now = new Date();
+      const y = now.getFullYear(), m = now.getMonth(), d = now.getDate();
+      const shiftsWithDates = SHIFTS.map(([off, h1, h2, platform, mate]) => {
+        const start = new Date(y, m, d + off, h1, 0, 0);
+        const end = new Date(y, m, d + off, h2 === 24 ? 23 : h2, h2 === 24 ? 59 : 0, 0);
+        return { off, h1, h2, platform, mate, start, end };
+      });
+
+      // Shift yang sedang berlangsung saat itu juga: start <= now <= end
+      const activeShift = shiftsWithDates.find(s => now >= s.start && now <= s.end);
+      // Shift berikutnya: start > now
+      const nextShift = shiftsWithDates.find(s => s.start > now) || shiftsWithDates[0];
+      const targetShift = activeShift || nextShift;
+      const isInsideWorkingHours = !!activeShift;
+
+      return {
+        isInsideWorkingHours,
+        activeShift,
+        targetShift,
+        h1Formatted: jam(targetShift.h1),
+        h2Formatted: jam(targetShift.h2),
+        platform: targetShift.platform
+      };
+    }
     const attLoc = { in: null, out: null };
     const NEED_HTTPS = 'Kamera dan lokasi hanya bisa dipakai lewat HTTPS atau localhost.';
     const CAM_ERR = {
@@ -1118,8 +1751,11 @@
     }
 
     function toggleAttendance() {
-      if (outTime) showCustomAlert('Info', 'Kamu sudah menyelesaikan absen hari ini.');
-      else openAbsen(inTime ? 'out' : 'in');
+      if (outTime) {
+        showCustomAlert('Info', 'Kamu sudah menyelesaikan absen hari ini.');
+        return;
+      }
+      openAbsen(inTime ? 'out' : 'in');
     }
     function openAbsen(mode) {
       absenMode = mode;
@@ -1230,10 +1866,59 @@
       syncAbsen();
     }
 
-    /* Tombol & petunjuk di sheet absen mengikuti status kamera, foto, dan lokasi */
+    /* Validasi & petunjuk di sheet modal absen mengikuti kamera, foto, deteksi lokasi, dan deteksi jam shift */
     function syncAbsen() {
       const live = camState === 'live', loc = locInfo();
-      const blocked = loc.s === 'loading' || loc.s === 'error' || (ATT.enforceRadius && loc.s === 'out');
+      const timeCheck = getShiftCheck();
+
+      // Update status jam shift di dalam modal
+      const timeBox = $('absen-time-status');
+      const timeIcon = $('absen-time-icon');
+      const timeTitle = $('absen-time-title');
+      const timeSub = $('absen-time-sub');
+
+      if (timeBox && timeTitle && timeSub) {
+        if (timeCheck.isInsideWorkingHours) {
+          timeBox.className = 'flex items-center gap-3 rounded-2xl border px-3 py-2.5 transition-colors bg-brand-50 border-brand-200';
+          if (timeIcon) timeIcon.className = 'w-9 h-9 rounded-full flex items-center justify-center shrink-0 bg-brand-100 text-brand-600';
+          timeTitle.innerText = `Shift Sedang Berlangsung (${timeCheck.platform})`;
+          timeSub.innerText = `Jam masuk: ${timeCheck.h1Formatted} WIB · Jam keluar: ${timeCheck.h2Formatted} WIB`;
+        } else {
+          timeBox.className = 'flex items-center gap-3 rounded-2xl border px-3 py-2.5 transition-colors bg-amber-50 border-amber-200';
+          if (timeIcon) timeIcon.className = 'w-9 h-9 rounded-full flex items-center justify-center shrink-0 bg-amber-100 text-amber-600';
+          timeTitle.innerText = 'Di Luar Jam Kerja Shift';
+          timeSub.innerText = `Jadwal shift: ${timeCheck.h1Formatted} – ${timeCheck.h2Formatted} WIB (${timeCheck.platform})`;
+        }
+      }
+
+      // Deteksi kasus gagal absen (tulisan merah saja di dalam modal)
+      const errorList = [];
+      if (loc.s === 'out') {
+        errorList.push(`Posisi Anda berada di luar jangkauan area kantor (maksimal ${OFFICE.radius} meter). Jarak saat ini: ${fmtDist(loc.dist)} dari ${OFFICE.name}.`);
+      } else if (loc.s === 'error') {
+        errorList.push(geoErr || 'Izin lokasi belum aktif. Pastikan GPS aktif untuk mendeteksi radius kantor.');
+      }
+
+      if (!timeCheck.isInsideWorkingHours) {
+        errorList.push(`Saat ini di luar jam kerja. Jam masuk shift: ${timeCheck.h1Formatted} WIB, jam keluar: ${timeCheck.h2Formatted} WIB.`);
+      }
+
+      const errContainer = $('modal-absen-error');
+      const errContent = $('modal-absen-error-content');
+      const hasErrors = errorList.length > 0;
+
+      if (errContainer && errContent) {
+        if (hasErrors && loc.s !== 'loading') {
+          errContainer.classList.remove('hidden');
+          errContent.innerHTML = errorList.map(msg => `<p class="text-red-600 leading-snug font-medium">Gagal absen: ${msg}</p>`).join('');
+        } else {
+          errContainer.classList.add('hidden');
+          errContent.innerHTML = '';
+        }
+      }
+
+      const blocked = loc.s === 'loading' || loc.s === 'error' || (ATT.enforceRadius && loc.s === 'out') || !timeCheck.isInsideWorkingHours;
+
       $('absen-guide').classList.toggle('hidden', !live || photoTaken);
       $('absen-hint').classList.toggle('hidden', !live);
       $('absen-hint').innerText = photoTaken ? 'Pastikan wajah terlihat jelas' : 'Posisikan wajah di dalam bingkai';
@@ -1242,13 +1927,22 @@
       $('btn-retake').classList.toggle('hidden', !photoTaken);
       $('btn-confirm').classList.toggle('hidden', !photoTaken);
       $('btn-confirm').disabled = blocked;
-      $('btn-confirm-txt').innerText = loc.s === 'loading' ? 'Menunggu lokasi…' : loc.s === 'error' ? 'Lokasi belum aktif'
-        : blocked ? 'Di luar area' : 'Konfirmasi Absen';
+
+      let confirmTxt = 'Konfirmasi Absen';
+      if (loc.s === 'loading') confirmTxt = 'Menunggu lokasi…';
+      else if (loc.s === 'error') confirmTxt = 'Lokasi belum aktif';
+      else if (loc.s === 'out' && !timeCheck.isInsideWorkingHours) confirmTxt = 'Di luar area & jam kerja';
+      else if (loc.s === 'out') confirmTxt = 'Di luar area kantor';
+      else if (!timeCheck.isInsideWorkingHours) confirmTxt = 'Di luar jam kerja';
+
+      $('btn-confirm-txt').innerText = confirmTxt;
     }
 
     function confirmAbsen() {
       const loc = locInfo();
-      if (!photoTaken || $('btn-confirm').disabled) return;
+      const timeCheck = getShiftCheck();
+      if (!photoTaken || $('btn-confirm').disabled || !timeCheck.isInsideWorkingHours || loc.s !== 'ok') return;
+
       const t = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
       const rec = { lat: geoFix.lat, lng: geoFix.lng, acc: geoFix.acc, dist: loc.dist, inside: loc.s === 'ok' };
       const where = rec.inside ? `dalam area kantor (${fmtDist(rec.dist)})` : `luar area kantor (${fmtDist(rec.dist)} dari kantor)`;
@@ -1301,8 +1995,8 @@
     const OFFICE = {
       name: 'Kantor Host Live',
       address: 'Universitas Sebelas Maret, Jl. Ir. Sutami No.36, Kentingan, Jebres, Surakarta',
-      lat: -7.5594794,
-      lng: 110.8568535,
+      lat: -7.544475,
+      lng: 110.862428,
       radius: 50 /* meter; GPS ponsel biasanya hanya akurat 5-30 m, jadi 2 m tidak realistis */
     };
 
@@ -1348,7 +2042,6 @@
     }
     function openSchedule() {
       const all = getShifts();
-      $('schedule-summary').innerText = `${all.length} shift • ${all.reduce((t, s) => t + s.h2 - s.h1, 0)} jam live dalam 14 hari ke depan`;
       let bulan = '';
       $('schedule-full').innerHTML = all.map(s => {
         const b = s.start.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
@@ -1360,11 +2053,106 @@
     }
     function closeSchedule() { $('modal-jadwal').classList.add('hidden'); }
 
-    /* Cuti / Izin */
+    /* Cuti / Izin & Riwayat Pengajuan */
+    let RIWAYAT_PENGAJUAN = [
+      {
+        id: 1,
+        jenis: 'Izin',
+        tanggalLabel: '14 Apr 2026',
+        alasan: 'Demam berdarah (Surat terlampir)',
+        status: 'Disetujui',
+        timestamp: new Date('2026-04-14T08:00:00').getTime()
+      },
+      {
+        id: 2,
+        jenis: 'Cuti Tahunan',
+        tanggalLabel: '02 Mar 2026 – 03 Mar 2026',
+        alasan: 'Acara keluarga di luar kota',
+        status: 'Disetujui',
+        timestamp: new Date('2026-03-01T09:30:00').getTime()
+      },
+      {
+        id: 3,
+        jenis: 'Izin',
+        tanggalLabel: '18 Feb 2026',
+        alasan: 'Urusan perpanjangan SIM mendesak',
+        status: 'Tidak Disetujui',
+        timestamp: new Date('2026-02-17T14:15:00').getTime()
+      }
+    ];
+
+    function renderRiwayatPengajuan() {
+      const container = $('riwayat-list');
+      const countEl = $('riwayat-count');
+      if (!container) return;
+
+      const filterStatus = $('filter-riwayat-status') ? $('filter-riwayat-status').value : 'all';
+      const filterSort = $('filter-riwayat-sort') ? $('filter-riwayat-sort').value : 'terbaru';
+
+      let list = [...RIWAYAT_PENGAJUAN];
+
+      if (filterStatus === 'disetujui') {
+        list = list.filter(item => item.status === 'Disetujui');
+      } else if (filterStatus === 'tidak_disetujui') {
+        list = list.filter(item => item.status === 'Tidak Disetujui');
+      } else if (filterStatus === 'menunggu') {
+        list = list.filter(item => item.status === 'Menunggu');
+      }
+
+      if (filterSort === 'terbaru') {
+        list.sort((a, b) => b.timestamp - a.timestamp);
+      } else if (filterSort === 'terlama') {
+        list.sort((a, b) => a.timestamp - b.timestamp);
+      }
+
+      if (countEl) {
+        countEl.textContent = `${list.length} Pengajuan`;
+      }
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="bg-gray-50 border border-dashed border-gray-200 rounded-xl p-6 text-center text-gray-400">
+            <i class="fa-regular fa-folder-open text-2xl mb-1.5 text-gray-300"></i>
+            <p class="text-xs font-semibold">Tidak ada riwayat pengajuan</p>
+          </div>
+        `;
+        return;
+      }
+
+      const statusBadges = {
+        'Disetujui': '<span class="text-[10px] font-bold text-green-600 bg-green-50 border border-green-200 px-2 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-check"></i> Disetujui</span>',
+        'Tidak Disetujui': '<span class="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-2 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-xmark"></i> Tidak Disetujui</span>',
+        'Menunggu': '<span class="text-[10px] font-bold text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded flex items-center gap-1"><i class="fa-solid fa-clock"></i> Menunggu</span>'
+      };
+
+      container.innerHTML = list.map(item => `
+        <div class="bg-white p-4 rounded-xl border border-gray-100 shadow-sm text-left transition hover:shadow-xs">
+          <div class="flex justify-between items-center mb-2">
+            <span class="bg-brand-50 text-brand-700 text-[10px] font-bold px-2 py-0.5 rounded border border-brand-200">${item.jenis}</span>
+            ${statusBadges[item.status] || ''}
+          </div>
+          <p class="text-sm font-semibold text-gray-900">${item.tanggalLabel}</p>
+          <p class="text-xs text-gray-500 mt-1">${item.alasan}</p>
+        </div>
+      `).join('');
+    }
+
+    function onRiwayatFilterChange() {
+      renderRiwayatPengajuan();
+    }
+
     function openCutiModal() {
       selectJenisCuti('cuti');
+      const alasanEl = $('cuti-alasan');
+      const errorEl = $('cuti-error-msg');
+      if (alasanEl) {
+        alasanEl.value = '';
+        alasanEl.classList.remove('border-red-500', 'bg-red-50/20');
+      }
+      if (errorEl) errorEl.classList.add('hidden');
       $('modal-cuti').classList.remove('hidden');
     }
+
     function selectJenisCuti(jenis) {
       jenisCuti = jenis;
       const on = 'border-2 border-brand-500 bg-brand-50 text-brand-700 font-semibold py-2 rounded-xl text-sm transition-colors';
@@ -1373,10 +2161,135 @@
       $('btn-jenis-sakit').className = jenis === 'sakit' ? on : off;
       $('card-surat-dokter').classList.toggle('hidden', jenis !== 'sakit');
     }
+
     function submitCuti() {
+      const alasanEl = $('cuti-alasan');
+      const errorEl = $('cuti-error-msg');
+      const alasan = alasanEl ? alasanEl.value.trim() : '';
+
+      if (!alasan) {
+        if (errorEl) errorEl.classList.remove('hidden');
+        if (alasanEl) {
+          alasanEl.classList.add('border-red-500', 'bg-red-50/20');
+          alasanEl.focus();
+        }
+        return; // Gagal ajuan karena alasan tidak diisi: cukup tulisan merah saja, tidak perlu modal!
+      }
+
+      if (errorEl) errorEl.classList.add('hidden');
+      if (alasanEl) alasanEl.classList.remove('border-red-500', 'bg-red-50/20');
+
+      const tglMulai = $('cuti-tanggal-mulai') ? $('cuti-tanggal-mulai').value : '';
+      const tglSelesai = $('cuti-tanggal-selesai') ? $('cuti-tanggal-selesai').value : '';
+
+      const fmtTgl = val => {
+        if (!val) return '';
+        const d = new Date(val);
+        return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+      };
+
+      let labelTgl = '';
+      if (tglMulai && tglSelesai && tglMulai !== tglSelesai) {
+        labelTgl = `${fmtTgl(tglMulai)} – ${fmtTgl(tglSelesai)}`;
+      } else if (tglMulai) {
+        labelTgl = fmtTgl(tglMulai);
+      } else {
+        labelTgl = new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+      }
+
+      const jenisLabel = jenisCuti === 'sakit' ? 'Izin' : 'Cuti Tahunan';
+
+      // Masukkan ke daftar riwayat pengajuan
+      const newPengajuan = {
+        id: Date.now(),
+        jenis: jenisLabel,
+        tanggalLabel: labelTgl,
+        alasan: alasan,
+        status: 'Menunggu',
+        timestamp: Date.now()
+      };
+
+      RIWAYAT_PENGAJUAN.unshift(newPengajuan);
+      renderRiwayatPengajuan();
+
       $('modal-cuti').classList.add('hidden');
-      const label = jenisCuti === 'sakit' ? 'Izin Sakit' : 'Cuti Tahunan';
-      showCustomAlert('Berhasil', `Pengajuan ${label} berhasil dikirim dan sedang menunggu persetujuan HRD.`);
+      showCustomAlert('Berhasil Diajukan', `Pengajuan ${jenisLabel} berhasil dikirim dan masuk ke daftar riwayat pengajuan Anda.`);
+      if (alasanEl) alasanEl.value = '';
+    }
+
+    /* Dataset & Logika Slip Gaji Dinamis */
+    const DATA_SLIP_GAJI = {
+      'Mei 2026': {
+        pokok: '+ Rp 1.500.000',
+        tunjangan: '+ Rp 250.000',
+        komisi: '+ Rp 480.000',
+        potongan: '- Rp 0',
+        total: 'Rp 2.230.000'
+      },
+      'April 2026': {
+        pokok: '+ Rp 1.500.000',
+        tunjangan: '+ Rp 0',
+        komisi: '+ Rp 250.000',
+        potongan: '- Rp 0',
+        total: 'Rp 1.750.000'
+      },
+      'Maret 2026': {
+        pokok: '+ Rp 1.500.000',
+        tunjangan: '+ Rp 150.000',
+        komisi: '+ Rp 320.000',
+        potongan: '- Rp 50.000',
+        total: 'Rp 1.920.000'
+      },
+      'Februari 2026': {
+        pokok: '+ Rp 1.500.000',
+        tunjangan: '+ Rp 0',
+        komisi: '+ Rp 180.000',
+        potongan: '- Rp 0',
+        total: 'Rp 1.680.000'
+      },
+      'Januari 2026': {
+        pokok: '+ Rp 1.500.000',
+        tunjangan: '+ Rp 100.000',
+        komisi: '+ Rp 220.000',
+        potongan: '- Rp 0',
+        total: 'Rp 1.820.000'
+      },
+      'Desember 2025': {
+        pokok: '+ Rp 1.500.000',
+        tunjangan: '+ Rp 300.000',
+        komisi: '+ Rp 550.000',
+        potongan: '- Rp 0',
+        total: 'Rp 2.350.000'
+      },
+      'November 2025': {
+        pokok: '+ Rp 1.500.000',
+        tunjangan: '+ Rp 0',
+        komisi: '+ Rp 200.000',
+        potongan: '- Rp 0',
+        total: 'Rp 1.700.000'
+      },
+      'Oktober 2025': {
+        pokok: '+ Rp 1.500.000',
+        tunjangan: '+ Rp 120.000',
+        komisi: '+ Rp 260.000',
+        potongan: '- Rp 30.000',
+        total: 'Rp 1.850.000'
+      }
+    };
+
+    function onGajiPeriodChange(periode) {
+      const data = DATA_SLIP_GAJI[periode] || DATA_SLIP_GAJI['April 2026'];
+      if ($('gaji-title')) $('gaji-title').textContent = `Slip Gaji - ${periode}`;
+      if ($('gaji-pokok')) $('gaji-pokok').textContent = data.pokok;
+      if ($('gaji-tunjangan')) $('gaji-tunjangan').textContent = data.tunjangan;
+      if ($('gaji-komisi')) $('gaji-komisi').textContent = data.komisi;
+      if ($('gaji-potongan')) $('gaji-potongan').textContent = data.potongan;
+      if ($('gaji-total')) $('gaji-total').textContent = data.total;
+    }
+
+    function downloadSlipGaji() {
+      const per = $('select-periode-gaji') ? $('select-periode-gaji').value : 'April 2026';
+      showCustomAlert('Unduh Slip Gaji', `Slip gaji periode ${per} sedang disiapkan dan akan segera diunduh.`);
     }
     function showCustomAlert(title, message = '') {
       $('alert-title').innerText = title;
@@ -1386,27 +2299,446 @@
     }
     function closeCustomAlert() { $('custom-alert').classList.add('hidden'); }
 
-    /* Chart */
-    function renderChart() {
-      if (chartInstance) chartInstance.destroy();
-      Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
-      const line = (label, data, color, dash) => ({ label, data, borderColor: color, borderWidth: 2.5, borderDash: dash, tension: .4, pointRadius: 0, fill: true, backgroundColor: color + '14' });
-      chartInstance = new Chart($('revenueChart').getContext('2d'), {
-        type: 'line',
-        data: {
-          labels: ['01', '05', '10', '15', '20', '25', '30'],
-          datasets: [line('TikTok', [3.2, 4.5, 3.8, 6.1, 5.0, 8.2, 7.4], '#111827', []), line('Shopee', [2.1, 2.5, 3.0, 2.8, 4.1, 3.5, 4.0], '#f97316', [5, 5])]
-        },
-        options: {
-          responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 6, font: { size: 10 } } } },
-          scales: {
-            y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { font: { size: 10 }, callback: v => v + 'jt' } },
-            x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-          },
-          interaction: { mode: 'index', intersect: false }
-        }
+    /* Logika & Fungsi Halaman Performa */
+    function getCustomPerformanceData() {
+      const d1 = new Date(customDateFrom);
+      const d2 = new Date(customDateTo);
+      const diffMs = Math.max(0, d2 - d1);
+      const diffDays = Math.max(1, Math.round(diffMs / (1000 * 60 * 60 * 24)) + 1);
+
+      const fmtD = d => d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' });
+      const label = `${fmtD(d1)} – ${fmtD(d2)} (${diffDays} hari)`;
+      const scale = Math.max(0.1, diffDays / 30);
+
+      const numPoints = Math.min(Math.max(4, diffDays), 7);
+      const chartLabels = [];
+      const tiktokPoints = [];
+      const shopeePoints = [];
+
+      for (let i = 0; i < numPoints; i++) {
+        const pointDate = new Date(d1.getTime() + (diffMs * (i / (numPoints - 1 || 1))));
+        chartLabels.push(fmtD(pointDate));
+        const variance = 0.85 + Math.sin(i * 1.5) * 0.3;
+        const ttVal = Number((0.72 * variance * (diffDays / numPoints)).toFixed(1));
+        const spVal = Number((0.43 * variance * (diffDays / numPoints)).toFixed(1));
+        tiktokPoints.push(Math.max(0.1, ttVal));
+        shopeePoints.push(Math.max(0.1, spVal));
+      }
+
+      const revTotal = (35.0 * scale).toFixed(1);
+      const revTT = (21.8 * scale).toFixed(1);
+      const revSP = (13.2 * scale).toFixed(1);
+
+      const penTotal = Math.round(11026 * scale).toLocaleString('id-ID');
+      const penTT = Math.round(6840 * scale).toLocaleString('id-ID');
+      const penSP = Math.round(4186 * scale).toLocaleString('id-ID');
+
+      const sesTotal = Math.max(1, Math.round(57 * scale));
+      const sesTT = Math.max(1, Math.round(34 * scale));
+      const sesSP = Math.max(1, Math.round(23 * scale));
+
+      const baseHosts = PERFORMANCE_DATA.this_month.hosts;
+      const scaleHostList = list => list.map(([n, i, s, r, v, c, isMe]) => {
+        const scS = Math.max(1, Math.round(s * scale));
+        const rawR = parseFloat(r.replace(/[^0-9.]/g, '')) * scale;
+        const scR = 'Rp ' + rawR.toFixed(1) + 'jt';
+        const rawV = Math.round(parseInt(v.replace(/\./g, '')) * scale);
+        const scV = rawV.toLocaleString('id-ID');
+        return [n, i, scS, scR, scV, c, isMe];
       });
+
+      return {
+        label: label,
+        periodType: 'kustom',
+        labels: chartLabels,
+        personal: {
+          all: {
+            revenue: 'Rp ' + revTotal + 'jt',
+            revenueTrend: '+14% vs periode lalu',
+            revenueTrendType: 'up',
+            penonton: penTotal,
+            penontonTrend: '+8% vs periode lalu',
+            penontonTrendType: 'up',
+            sesi: sesTotal + ' Sesi',
+            sesiTrend: '+5% vs periode lalu',
+            sesiTrendType: 'up',
+            tiktokLine: tiktokPoints,
+            shopeeLine: shopeePoints
+          },
+          tiktok: {
+            revenue: 'Rp ' + revTT + 'jt',
+            revenueTrend: '+17% vs periode lalu',
+            revenueTrendType: 'up',
+            penonton: penTT,
+            penontonTrend: '+11% vs periode lalu',
+            penontonTrendType: 'up',
+            sesi: sesTT + ' Sesi',
+            sesiTrend: '+7% vs periode lalu',
+            sesiTrendType: 'up',
+            tiktokLine: tiktokPoints
+          },
+          shopee: {
+            revenue: 'Rp ' + revSP + 'jt',
+            revenueTrend: '+10% vs periode lalu',
+            revenueTrendType: 'up',
+            penonton: penSP,
+            penontonTrend: '+4% vs periode lalu',
+            penontonTrendType: 'up',
+            sesi: sesSP + ' Sesi',
+            sesiTrend: '+2% vs periode lalu',
+            sesiTrendType: 'up',
+            shopeeLine: shopeePoints
+          }
+        },
+        hosts: {
+          all: scaleHostList(baseHosts.all),
+          tiktok: scaleHostList(baseHosts.tiktok),
+          shopee: scaleHostList(baseHosts.shopee)
+        }
+      };
+    }
+
+    function getPerformanceData() {
+      if (currentPeriod === 'custom') {
+        return getCustomPerformanceData();
+      }
+      return PERFORMANCE_DATA[currentPeriod] || PERFORMANCE_DATA.this_month;
+    }
+
+    function updatePerformanceView() {
+      const pData = getPerformanceData();
+      const pMetrics = pData.personal[currentPlatform] || pData.personal.all;
+      const hostList = (pData.hosts && pData.hosts[currentPlatform]) ? pData.hosts[currentPlatform] : pData.hosts.all;
+
+      const platformNames = {
+        all: 'Semua Platform',
+        tiktok: 'TikTok Live',
+        shopee: 'Shopee Live'
+      };
+      const platformLabel = platformNames[currentPlatform] || 'Semua Platform';
+
+      // 1. Update filter indicator
+      const filterChip = $('filter-indicator-chip');
+      if (filterChip) {
+        filterChip.textContent = '• ' + pData.label;
+      }
+
+      // 2. Render 3 Personal KPI Cards (Pribadi Prita)
+      const trendMap = {
+        up: ['text-emerald-500', 'fa-arrow-trend-up'],
+        down: ['text-red-500', 'fa-arrow-trend-down'],
+        flat: ['text-gray-400', 'fa-minus']
+      };
+
+      const kpiGrid = $('kpi-grid');
+      if (kpiGrid) {
+        const revTrend = trendMap[pMetrics.revenueTrendType] || trendMap.up;
+        const penTrend = trendMap[pMetrics.penontonTrendType] || trendMap.up;
+        const sesTrend = trendMap[pMetrics.sesiTrendType] || trendMap.up;
+
+        kpiGrid.innerHTML = `
+          <!-- Card 1: Total Revenue (Pribadi) -->
+          <div class="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between transition-all duration-200">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <p class="kpi-label text-[10px] lg:text-[11px] font-bold text-gray-500 uppercase tracking-wider">TOTAL REVENUE (PRIBADI)</p>
+                <span class="text-[10px] bg-white/20 text-white font-bold px-2 py-0.5 rounded-full backdrop-blur-xs flex items-center gap-1">
+                  <i class="fa-solid fa-user-circle text-[9px]"></i> Anda
+                </span>
+              </div>
+              <h3 class="text-xl lg:text-2xl font-extrabold text-brand-700 tracking-tight">${pMetrics.revenue}</h3>
+            </div>
+            <div class="flex items-center justify-between mt-3 pt-2.5 border-t border-white/10">
+              <p class="kpi-trend text-[11px] font-semibold flex items-center gap-1.5">
+                <i class="fa-solid ${revTrend[1]}"></i> ${pMetrics.revenueTrend}
+              </p>
+              <span class="text-[10px] text-emerald-200/90 font-medium">${platformLabel}</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Total Penonton (Pribadi) -->
+          <div class="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between transition-all duration-200">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <p class="text-[10px] lg:text-[11px] font-bold text-gray-500 uppercase tracking-wider">TOTAL PENONTON</p>
+                <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-[10px]">
+                  <i class="fa-solid fa-eye"></i>
+                </div>
+              </div>
+              <h3 class="text-xl lg:text-2xl font-bold text-gray-800 tracking-tight">${pMetrics.penonton}</h3>
+            </div>
+            <div class="flex items-center justify-between mt-3 pt-2.5 border-t border-gray-100">
+              <p class="text-[11px] ${penTrend[0]} font-semibold flex items-center gap-1.5">
+                <i class="fa-solid ${penTrend[1]}"></i> ${pMetrics.penontonTrend}
+              </p>
+              <span class="text-[10px] text-gray-400 font-medium">Siaran Pribadi</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Total Sesi Live (Pribadi) -->
+          <div class="bg-white p-4 lg:p-5 rounded-2xl shadow-sm border border-gray-100 flex flex-col justify-between transition-all duration-200">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <p class="text-[10px] lg:text-[11px] font-bold text-gray-500 uppercase tracking-wider">TOTAL SESI LIVE</p>
+                <div class="w-6 h-6 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center text-[10px]">
+                  <i class="fa-solid fa-video"></i>
+                </div>
+              </div>
+              <h3 class="text-xl lg:text-2xl font-bold text-gray-800 tracking-tight">${pMetrics.sesi}</h3>
+            </div>
+            <div class="flex items-center justify-between mt-3 pt-2.5 border-t border-gray-100">
+              <p class="text-[11px] ${sesTrend[0]} font-semibold flex items-center gap-1.5">
+                <i class="fa-solid ${sesTrend[1]}"></i> ${pMetrics.sesiTrend}
+              </p>
+              <span class="text-[10px] text-gray-400 font-medium">Siaran Selesai</span>
+            </div>
+          </div>
+        `;
+      }
+
+      // 3. Update Chart
+      updateChart(pData, platformLabel);
+
+      // 4. Update Top Host Revenue Panel
+      updateLeaderboard(hostList, pData.label, platformLabel);
+    }
+
+    function updateChart(pData, platformLabel) {
+      const chartEl = $('revenueChart');
+      if (!chartEl) return;
+
+      const chartTitleEl = $('chart-title');
+      const chartSubEl = $('chart-subtitle');
+      const chartBadgeEl = $('chart-badge');
+
+      const isBulanan = pData.periodType === 'bulanan';
+      const isKustom = pData.periodType === 'kustom';
+
+      if (chartTitleEl) {
+        chartTitleEl.textContent = isBulanan ? 'Tren Revenue Bulanan' : (isKustom ? 'Tren Revenue Rentang Tanggal' : 'Tren Revenue Harian');
+      }
+      if (chartSubEl) {
+        chartSubEl.textContent = `Pendapatan siaran personal @prita (${pData.label})`;
+      }
+      if (chartBadgeEl) {
+        chartBadgeEl.textContent = platformLabel;
+      }
+
+      Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+      const line = (label, data, color, dash) => ({
+        label,
+        data,
+        borderColor: color,
+        borderWidth: 2.5,
+        borderDash: dash,
+        tension: 0.35,
+        pointRadius: 3.5,
+        pointHoverRadius: 6,
+        pointBackgroundColor: color,
+        fill: true,
+        backgroundColor: color + '14'
+      });
+
+      let datasets = [];
+      const pMetricsAll = pData.personal.all;
+
+      if (currentPlatform === 'all') {
+        datasets = [
+          line('TikTok Live', pMetricsAll.tiktokLine, '#111827', []),
+          line('Shopee Live', pMetricsAll.shopeeLine, '#f97316', [5, 5])
+        ];
+      } else if (currentPlatform === 'tiktok') {
+        const d = pData.personal.tiktok.tiktokLine;
+        datasets = [line('TikTok Live', d, '#111827', [])];
+      } else if (currentPlatform === 'shopee') {
+        const d = pData.personal.shopee.shopeeLine;
+        datasets = [line('Shopee Live', d, '#f97316', [])];
+      }
+
+      if (chartInstance) {
+        chartInstance.data.labels = pData.labels;
+        chartInstance.data.datasets = datasets;
+        chartInstance.update();
+      } else {
+        chartInstance = new Chart(chartEl.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: pData.labels,
+            datasets: datasets
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: { usePointStyle: true, boxWidth: 6, font: { size: 10, weight: '600' } }
+              },
+              tooltip: {
+                backgroundColor: '#111827',
+                titleFont: { size: 11, weight: 'bold' },
+                bodyFont: { size: 11 },
+                padding: 10,
+                cornerRadius: 8,
+                callbacks: {
+                  label: ctx => ` ${ctx.dataset.label}: Rp ${ctx.parsed.y}jt`
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: { color: '#f3f4f6' },
+                ticks: {
+                  font: { size: 10 },
+                  callback: v => 'Rp ' + v + 'jt'
+                }
+              },
+              x: {
+                grid: { display: false },
+                ticks: { font: { size: 10 } }
+              }
+            },
+            interaction: { mode: 'index', intersect: false }
+          }
+        });
+      }
+    }
+
+    function updateLeaderboard(hostList, periodLabel, platformLabel) {
+      const lb = $('leaderboard');
+      if (!lb) return;
+
+      const subTitleEl = $('host-aktif-subtitle');
+      if (subTitleEl) {
+        subTitleEl.textContent = `Peringkat omzet • ${periodLabel}`;
+      }
+      const sumActiveEl = $('host-active-summary');
+      if (sumActiveEl) {
+        sumActiveEl.innerHTML = `<strong>8 Host Aktif</strong> • ${platformLabel} (0% vs bln lalu)`;
+      }
+
+      const displayList = showAllHosts ? hostList : hostList.slice(0, 3);
+
+      lb.innerHTML = displayList.map(([n, i, s, r, v, c, isMe], k) => {
+        const isFirst = k === 0;
+        const meBadge = isMe ? `<span class="ml-1.5 text-[9px] bg-brand-600 text-white font-bold px-1.5 py-0.5 rounded-full shadow-2xs">Anda</span>` : '';
+        const rankColor = isFirst ? 'text-brand-600' : 'text-gray-400';
+        const revColor = isFirst || isMe ? 'text-brand-700 font-extrabold' : 'text-gray-800 font-bold';
+        const rowBg = isMe ? 'bg-brand-50/40 hover:bg-brand-50/70' : 'hover:bg-gray-50/80';
+
+        return `
+          <div class="px-4 py-3 flex items-center gap-3 transition-colors ${rowBg}">
+            <span class="text-xs font-bold ${rankColor} w-4 text-center">${k + 1}</span>
+            <div class="w-8 h-8 rounded-full ${c} flex items-center justify-center text-xs font-bold shrink-0">${i}</div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-bold truncate flex items-center">${n} ${meBadge}</p>
+              <p class="text-[10px] text-gray-500">${s} Sesi</p>
+            </div>
+            <div class="text-right shrink-0">
+              <p class="text-sm ${revColor}">${r}</p>
+              <p class="text-[10px] text-gray-500">${v} Penonton</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const expandLabel = $('leaderboard-expand-label');
+      const expandIcon = $('leaderboard-expand-icon');
+      if (expandLabel) {
+        expandLabel.textContent = showAllHosts ? 'Tampilkan 3 Teratas' : 'Lihat Semua (8 Host Aktif)';
+      }
+      if (expandIcon) {
+        expandIcon.className = showAllHosts ? 'fa-solid fa-chevron-up text-[10px]' : 'fa-solid fa-chevron-down text-[10px]';
+      }
+    }
+
+    function onPeriodSelect(val) {
+      if (val === 'custom') {
+        const p = $('custom-date-panel');
+        if (p) p.classList.remove('hidden');
+      } else {
+        const p = $('custom-date-panel');
+        if (p) p.classList.add('hidden');
+        currentPeriod = val;
+        updatePerformanceView();
+      }
+    }
+
+    function onPlatformSelect(val) {
+      currentPlatform = val;
+      const ic = $('platform-filter-icon');
+      const wrap = $('platform-icon-wrap');
+      if (ic) {
+        if (val === 'tiktok') {
+          ic.className = 'fa-brands fa-tiktok text-sm';
+          if (wrap) wrap.className = 'w-8 h-8 rounded-lg bg-gray-900 text-white flex items-center justify-center mr-2.5 shrink-0 transition-colors shadow-2xs';
+        } else if (val === 'shopee') {
+          ic.className = 'fa-solid fa-bag-shopping text-sm';
+          if (wrap) wrap.className = 'w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center mr-2.5 shrink-0 transition-colors shadow-2xs';
+        } else {
+          ic.className = 'fa-solid fa-layer-group text-sm';
+          if (wrap) wrap.className = 'w-8 h-8 rounded-lg bg-gray-100 text-gray-700 flex items-center justify-center mr-2.5 shrink-0 transition-colors';
+        }
+      }
+      updatePerformanceView();
+    }
+
+    function applyCustomDateFilter() {
+      const f = $('custom-date-from').value;
+      const t = $('custom-date-to').value;
+      if (!f || !t) {
+        showCustomAlert('Perhatian', 'Harap lengkapi tanggal mulai dan tanggal akhir.');
+        return;
+      }
+      if (new Date(f) > new Date(t)) {
+        showCustomAlert('Rentang Tidak Valid', 'Tanggal mulai tidak boleh lebih besar dari tanggal akhir.');
+        return;
+      }
+      customDateFrom = f;
+      customDateTo = t;
+      currentPeriod = 'custom';
+      $('filter-period').value = 'custom';
+      updatePerformanceView();
+    }
+
+    function cancelCustomDateFilter() {
+      const p = $('custom-date-panel');
+      if (p) p.classList.add('hidden');
+      currentPeriod = 'this_month';
+      $('filter-period').value = 'this_month';
+      updatePerformanceView();
+    }
+
+    function setCustomQuickRange(days) {
+      const to = new Date(2026, 4, 28);
+      const from = new Date(to);
+      from.setDate(to.getDate() - (days - 1));
+
+      const fmt = d => {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${y}-${m}-${day}`;
+      };
+
+      $('custom-date-from').value = fmt(from);
+      $('custom-date-to').value = fmt(to);
+      applyCustomDateFilter();
+    }
+
+    function toggleLeaderboardExpand() {
+      showAllHosts = !showAllHosts;
+      const pData = getPerformanceData();
+      const hostList = (pData.hosts && pData.hosts[currentPlatform]) ? pData.hosts[currentPlatform] : pData.hosts.all;
+      const platformNames = { all: 'Semua Platform', tiktok: 'TikTok Live', shopee: 'Shopee Live' };
+      updateLeaderboard(hostList, pData.label, platformNames[currentPlatform] || 'Semua Platform');
+    }
+
+    function exportLeaderboard() {
+      const pData = getPerformanceData();
+      const platformNames = { all: 'Semua Platform', tiktok: 'TikTok Live', shopee: 'Shopee Live' };
+      showCustomAlert('Export Berhasil Disiapkan', `Laporan Excel performa untuk periode ${pData.label} (${platformNames[currentPlatform]}) sedang diunduh.`);
     }
   </script>
 
