@@ -6,7 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LiveSales - Internal Management</title>
   <link rel="icon" type="image/png" href="favicon.png?v=2">
-  <script>if (/[?&]frame\b/.test(location.search)) document.documentElement.classList.add('frame');</script>
+  <script>
+    /* ?frame  = kunci ukuran 1440x1024 + mode capture; ?capture = mode capture saja (tanpa kunci ukuran).
+       Mode capture: select/tanggal/notifikasi diganti komponen DOM yang tetap terbuka saat window kehilangan fokus. */
+    (function () {
+      var c = document.documentElement.classList, q = location.search;
+      if (/[?&]frame\b/.test(q)) { c.add('frame'); c.add('capture'); }
+      else if (/[?&]capture\b/.test(q)) c.add('capture');
+    })();
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
@@ -460,6 +468,81 @@
         transform: scaleX(1)
       }
     }
+
+    /* ===== Mode capture: dropdown & kalender berbasis DOM (tidak hilang saat blur) ===== */
+    html.capture body { position: relative }
+
+    .cap-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      cursor: pointer;
+      user-select: none;
+      min-width: 0
+    }
+
+    .cap-trigger .cap-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+    .cap-trigger .cap-chev { font-size: 9px; color: #9ca3af; transition: transform .15s; flex-shrink: 0 }
+    .cap-trigger.cap-open .cap-chev { transform: rotate(180deg) }
+    .cap-trigger.cap-open { outline: 2px solid rgba(34, 197, 94, .35); outline-offset: 2px; border-radius: 8px }
+
+    .cap-popup {
+      position: absolute;
+      z-index: 99999;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      box-shadow: 0 12px 32px -8px rgba(0, 0, 0, .22), 0 2px 6px rgba(0, 0, 0, .06);
+      font-family: inherit;
+      color: #1f2937
+    }
+
+    .cap-menu { padding: 6px; max-height: 320px; overflow-y: auto }
+
+    .cap-opt {
+      padding: 8px 12px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px
+    }
+
+    .cap-opt:hover { background: #f0fdf4 }
+    .cap-opt.sel { background: #dcfce7; color: #166534 }
+    .cap-opt.sel::after { content: '\2713'; font-weight: 800 }
+
+    .cap-cal { padding: 12px; width: 272px }
+    .cap-cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px }
+    .cap-cal-title { font-weight: 800; font-size: 14px }
+
+    .cap-cal-nav {
+      width: 28px; height: 28px; border-radius: 8px; border: 0; background: #f3f4f6;
+      cursor: pointer; font-weight: 800; color: #374151; line-height: 1
+    }
+
+    .cap-cal-nav:hover { background: #dcfce7; color: #166534 }
+    .cap-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center }
+    .cap-cal-dow { font-size: 10px; font-weight: 800; color: #9ca3af; text-transform: uppercase; padding: 4px 0 }
+
+    .cap-day {
+      height: 32px; line-height: 32px; font-size: 12.5px; font-weight: 600;
+      border-radius: 8px; cursor: pointer
+    }
+
+    .cap-day:hover { background: #f0fdf4 }
+    .cap-day.today { box-shadow: inset 0 0 0 1.5px #22c55e }
+    .cap-day.sel { background: #15803d; color: #fff }
+    .cap-day.off { color: #d1d5db; cursor: not-allowed; background: transparent }
+    .cap-day.empty { cursor: default; background: transparent }
+    .cap-cal-foot { display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px solid #f3f4f6 }
+    .cap-cal-foot button { border: 0; background: transparent; font-size: 12px; font-weight: 700; color: #15803d; cursor: pointer; padding: 4px 6px; border-radius: 6px }
+    .cap-cal-foot button:hover { background: #f0fdf4 }
   </style>
 </head>
 
@@ -1978,7 +2061,9 @@
 
     /* UI */
     function toggleNotifications() { $('notification-panel').classList.toggle('hidden'); }
+    
     document.addEventListener('click', e => {
+      if (document.documentElement.classList.contains('capture')) return; /* mode capture: panel tetap terbuka */
       const p = $('notification-panel');
       if (!e.target.closest('button[onclick="toggleNotifications()"]') && !p.contains(e.target)) p.classList.add('hidden');
     });
@@ -2054,32 +2139,7 @@
     function closeSchedule() { $('modal-jadwal').classList.add('hidden'); }
 
     /* Cuti / Izin & Riwayat Pengajuan */
-    let RIWAYAT_PENGAJUAN = [
-      {
-        id: 1,
-        jenis: 'Izin',
-        tanggalLabel: '14 Apr 2026',
-        alasan: 'Demam berdarah (Surat terlampir)',
-        status: 'Disetujui',
-        timestamp: new Date('2026-04-14T08:00:00').getTime()
-      },
-      {
-        id: 2,
-        jenis: 'Cuti Tahunan',
-        tanggalLabel: '02 Mar 2026 – 03 Mar 2026',
-        alasan: 'Acara keluarga di luar kota',
-        status: 'Disetujui',
-        timestamp: new Date('2026-03-01T09:30:00').getTime()
-      },
-      {
-        id: 3,
-        jenis: 'Izin',
-        tanggalLabel: '18 Feb 2026',
-        alasan: 'Urusan perpanjangan SIM mendesak',
-        status: 'Tidak Disetujui',
-        timestamp: new Date('2026-02-17T14:15:00').getTime()
-      }
-    ];
+    let RIWAYAT_PENGAJUAN = [];
 
     function renderRiwayatPengajuan() {
       const container = $('riwayat-list');
@@ -2740,6 +2800,162 @@
       const platformNames = { all: 'Semua Platform', tiktok: 'TikTok Live', shopee: 'Shopee Live' };
       showCustomAlert('Export Berhasil Disiapkan', `Laporan Excel performa untuk periode ${pData.label} (${platformNames[currentPlatform]}) sedang diunduh.`);
     }
+  </script>
+
+  <script>
+    /* ===== Mode capture (?frame atau ?capture) =====
+       Select & input tanggal native dirender browser di luar DOM dan menutup saat window kehilangan fokus
+       (klik ekstensi, alt-tab, dll). Di mode ini keduanya diganti komponen DOM yang hanya menutup bila:
+       opsi/tanggal dipilih, trigger diklik lagi, atau tombol Esc ditekan. Mode normal tidak berubah. */
+    (function () {
+      if (!document.documentElement.classList.contains('capture')) return;
+
+      const BULAN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      const HARI = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+      const pad = n => String(n).padStart(2, '0');
+      const iso = (y, m, d) => y + '-' + pad(m + 1) + '-' + pad(d);
+      let current = null; /* { trigger, popup } yang sedang terbuka */
+
+      function closePopup() {
+        if (!current) return;
+        current.trigger.classList.remove('cap-open');
+        current.popup.remove();
+        current = null;
+      }
+
+      function place(trigger, popup) {
+        if (!trigger.offsetParent && getComputedStyle(trigger).position !== 'fixed') { closePopup(); return; }
+        const r = trigger.getBoundingClientRect(), b = document.body.getBoundingClientRect();
+        let left = r.left - b.left, top = r.bottom - b.top + 6;
+        const w = popup.offsetWidth;
+        if (r.left + w > window.innerWidth - 8) left = Math.max(8, window.innerWidth - 8 - w) - b.left;
+        popup.style.left = left + 'px';
+        popup.style.top = top + 'px';
+      }
+
+      function open(trigger, popup, minWidth) {
+        closePopup();
+        if (minWidth) popup.style.minWidth = trigger.getBoundingClientRect().width + 'px';
+        document.body.appendChild(popup);
+        trigger.classList.add('cap-open');
+        current = { trigger, popup };
+        place(trigger, popup);
+      }
+
+      const reposition = () => { if (current) place(current.trigger, current.popup); };
+      window.addEventListener('resize', reposition);
+      window.addEventListener('scroll', reposition, true);
+      document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape') return;
+        closePopup();
+        $('notification-panel').classList.add('hidden');
+      });
+
+      /* ---------- Select ---------- */
+      function enhanceSelect(sel) {
+        const trigger = document.createElement('div');
+        trigger.className = sel.className + ' cap-trigger';
+        trigger.tabIndex = 0;
+        trigger.innerHTML = '<span class="cap-label"></span><i class="fa-solid fa-chevron-down cap-chev"></i>';
+        sel.style.display = 'none';
+        sel.parentNode.insertBefore(trigger, sel.nextSibling);
+        const label = trigger.querySelector('.cap-label');
+        const sync = () => { const o = sel.options[sel.selectedIndex]; const t = o ? o.text : ''; if (label.textContent !== t) label.textContent = t; };
+        sync();
+        setInterval(sync, 300); /* ikuti perubahan sel.value dari kode aplikasi */
+
+        trigger.addEventListener('click', e => {
+          e.stopPropagation();
+          if (current && current.trigger === trigger) { closePopup(); return; }
+          const menu = document.createElement('div');
+          menu.className = 'cap-popup cap-menu';
+          Array.from(sel.options).forEach(o => {
+            const item = document.createElement('div');
+            item.className = 'cap-opt' + (o.value === sel.value ? ' sel' : '');
+            item.textContent = o.text;
+            item.addEventListener('click', ev => {
+              ev.stopPropagation();
+              const changed = sel.value !== o.value;
+              sel.value = o.value;
+              sync();
+              closePopup();
+              if (changed) sel.dispatchEvent(new Event('change', { bubbles: true })); /* memicu onchange asli */
+            });
+            menu.appendChild(item);
+          });
+          open(trigger, menu, true);
+        });
+        trigger.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger.click(); } });
+      }
+
+      /* ---------- Tanggal ---------- */
+      function enhanceDate(inp) {
+        const trigger = document.createElement('div');
+        trigger.className = inp.className + ' cap-trigger';
+        trigger.tabIndex = 0;
+        trigger.innerHTML = '<span class="cap-label"></span><i class="fa-regular fa-calendar cap-chev" style="font-size:12px"></i>';
+        inp.style.display = 'none';
+        inp.parentNode.insertBefore(trigger, inp.nextSibling);
+        const label = trigger.querySelector('.cap-label');
+        const fmt = v => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || ''); return m ? m[3] + '/' + m[2] + '/' + m[1] : 'dd/mm/yyyy'; };
+        const sync = () => { const t = fmt(inp.value); if (label.textContent !== t) label.textContent = t; };
+        sync();
+        setInterval(sync, 300);
+
+        trigger.addEventListener('click', e => {
+          e.stopPropagation();
+          if (current && current.trigger === trigger) { closePopup(); return; }
+          const today = new Date();
+          const sm = /^(\d{4})-(\d{2})-(\d{2})$/.exec(inp.value);
+          let vy = sm ? +sm[1] : today.getFullYear(), vm = sm ? +sm[2] - 1 : today.getMonth();
+          const cal = document.createElement('div');
+          cal.className = 'cap-popup cap-cal';
+
+          const pick = v => {
+            inp.value = v; sync(); closePopup();
+            inp.dispatchEvent(new Event('input', { bubbles: true }));
+            inp.dispatchEvent(new Event('change', { bubbles: true }));
+          };
+
+          const render = () => {
+            const first = (new Date(vy, vm, 1).getDay() + 6) % 7; /* Senin = 0 */
+            const days = new Date(vy, vm + 1, 0).getDate();
+            let h = '<div class="cap-cal-head"><button type="button" class="cap-cal-nav" data-nav="-1">&#8249;</button>' +
+              '<span class="cap-cal-title">' + BULAN[vm] + ' ' + vy + '</span>' +
+              '<button type="button" class="cap-cal-nav" data-nav="1">&#8250;</button></div><div class="cap-cal-grid">';
+            HARI.forEach(d => { h += '<div class="cap-cal-dow">' + d + '</div>'; });
+            for (let i = 0; i < first; i++) h += '<div class="cap-day empty"></div>';
+            for (let d = 1; d <= days; d++) {
+              const v = iso(vy, vm, d);
+              const off = (inp.min && v < inp.min) || (inp.max && v > inp.max);
+              const cls = ['cap-day', off ? 'off' : '', v === inp.value ? 'sel' : '', v === iso(today.getFullYear(), today.getMonth(), today.getDate()) ? 'today' : ''].join(' ');
+              h += '<div class="' + cls + '" data-v="' + v + '">' + d + '</div>';
+            }
+            h += '</div><div class="cap-cal-foot"><button type="button" data-act="today">Hari ini</button><button type="button" data-act="clear">Hapus</button></div>';
+            cal.innerHTML = h;
+          };
+
+          cal.addEventListener('click', ev => {
+            ev.stopPropagation();
+            const t = ev.target.closest('[data-nav],[data-v],[data-act]');
+            if (!t) return;
+            if (t.dataset.nav) { vm += +t.dataset.nav; if (vm < 0) { vm = 11; vy--; } if (vm > 11) { vm = 0; vy++; } render(); place(trigger, cal); }
+            else if (t.dataset.v && !t.classList.contains('off')) pick(t.dataset.v);
+            else if (t.dataset.act === 'today') pick(iso(today.getFullYear(), today.getMonth(), today.getDate()));
+            else if (t.dataset.act === 'clear') pick('');
+          });
+
+          render();
+          open(trigger, cal, false);
+        });
+        trigger.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); trigger.click(); } });
+      }
+
+      ['filter-period', 'filter-platform', 'filter-riwayat-status', 'filter-riwayat-sort', 'select-periode-gaji']
+        .forEach(id => { const el = $(id); if (el) enhanceSelect(el); });
+      ['custom-date-from', 'custom-date-to', 'cuti-tanggal-mulai', 'cuti-tanggal-selesai']
+        .forEach(id => { const el = $(id); if (el) enhanceDate(el); });
+    })();
   </script>
 
   <script>
